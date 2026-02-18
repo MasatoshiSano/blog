@@ -1,0 +1,73 @@
+---
+title: "TypeScriptのユーティリティ型を使いこなす"
+emoji: "🔧"
+type: "tech"
+topics: ["TypeScript"]
+published: true
+category: "Frontend"
+date: "2025-01-10"
+featured: true
+---
+
+## ユーティリティ型とは
+
+TypeScriptには、型変換を簡単に行うための組み込みユーティリティ型が多数用意されています。
+
+## よく使うユーティリティ型
+
+### Partial<T>
+
+すべてのプロパティをオプショナルにします。
+
+```typescript
+interface User {
+  name: string;
+  email: string;
+  age: number;
+}
+
+type PartialUser = Partial<User>;
+// { name?: string; email?: string; age?: number; }
+```
+
+### Pick<T, K>
+
+特定のプロパティだけを抽出します。
+
+```typescript
+type UserName = Pick<User, "name" | "email">;
+// { name: string; email: string; }
+```
+
+### Omit<T, K>
+
+特定のプロパティを除外します。
+
+```typescript
+type UserWithoutAge = Omit<User, "age">;
+// { name: string; email: string; }
+```
+
+## 高度なユーティリティ型
+
+### Record<K, T>
+
+キーと値の型を指定してオブジェクト型を作成します。
+
+```typescript
+type PageInfo = Record<string, { title: string; url: string }>;
+```
+
+### Extract と Exclude
+
+ユニオン型からの型の抽出・除外に使います。
+
+```typescript
+type Status = "active" | "inactive" | "pending";
+type ActiveStatus = Extract<Status, "active" | "pending">;
+// "active" | "pending"
+```
+
+## まとめ
+
+ユーティリティ型を活用することで、既存の型から新しい型を効率的に生成でき、コードの保守性が向上します。

@@ -1,0 +1,16 @@
+{
+  "name": "blog-infra",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "cdk": "cdk"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.170.0",
+    "constructs": "^10.4.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "aws-cdk": "^2.170.0"
+  }
+}

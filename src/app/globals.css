@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+.code-block-wrapper {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.code-block-wrapper pre {
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.code-block-wrapper code {
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.prose .code-block-wrapper {
+  margin: 0;
+}
+
+.prose .code-block-wrapper pre {
+  margin: 0;
+}
