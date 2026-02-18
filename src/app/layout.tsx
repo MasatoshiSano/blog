@@ -8,8 +8,7 @@ export const metadata: Metadata = {
     default: "Tech Blog",
     template: "%s | Tech Blog",
   },
-  description:
-    "フロントエンド、バックエンド、インフラのテクノロジーブログ",
+  description: "フロントエンド、バックエンド、インフラのテクノロジーブログ",
 };
 
 export default function RootLayout({
