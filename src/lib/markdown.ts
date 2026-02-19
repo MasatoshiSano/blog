@@ -14,7 +14,7 @@ let highlighterPromise: ReturnType<typeof createHighlighter> | null = null;
 function getHighlighter() {
   if (!highlighterPromise) {
     highlighterPromise = createHighlighter({
-      themes: ["github-light"],
+      themes: ["github-dark"],
       langs: [
         "typescript",
         "javascript",
@@ -101,7 +101,7 @@ async function highlightCode(html: string): Promise<string> {
     try {
       const highlighted = highlighter.codeToHtml(decodedCode.trim(), {
         lang: language,
-        theme: "github-light",
+        theme: "github-dark",
       });
       return `<div class="code-block-wrapper" data-language="${language}">${highlighted}</div>`;
     } catch {

@@ -25,7 +25,7 @@ export function CodeBlock({ htmlContent, className }: CodeBlockProps) {
       btn.setAttribute("data-copy-btn", "true");
       btn.textContent = "Copy";
       btn.className =
-        "absolute top-2 right-2 rounded border border-gray-200 bg-white/80 px-2 py-1 text-xs text-gray-600 transition-colors hover:bg-white";
+        "absolute top-2 right-2 rounded border px-2 py-1 text-xs transition-colors";
 
       btn.addEventListener("click", async () => {
         const code = wrapper.querySelector("code");
