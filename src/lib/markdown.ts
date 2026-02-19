@@ -1,8 +1,10 @@
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 import remarkRehype from "remark-rehype";
 import rehypeSlug from "rehype-slug";
+import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
 import { createHighlighter } from "shiki";
 import type { Heading } from "@/types/post";
@@ -36,6 +38,30 @@ function getHighlighter() {
   return highlighterPromise;
 }
 
+/**
+ * Preprocess Qiita-style :::note blocks into HTML.
+ *
+ * Supports:
+ *   :::note info    (blue info box)
+ *   :::note warn    (yellow warning box)
+ *   :::note alert   (red alert box)
+ *   :::note         (defaults to info)
+ */
+function preprocessNoteBlocks(markdown: string): string {
+  const noteRegex = /^:::note\s*(info|warn|alert)?\s*\n([\s\S]*?)^:::\s*$/gm;
+  return markdown.replace(noteRegex, (_match, type: string | undefined, content: string) => {
+    const noteType = type ?? "info";
+    const iconMap: Record<string, string> = {
+      info: "ℹ️",
+      warn: "⚠️",
+      alert: "🚫",
+    };
+    const icon = iconMap[noteType] ?? "ℹ️";
+    const trimmed = content.trim();
+    return `<div class="qiita-note qiita-note-${noteType}"><span class="qiita-note-icon">${icon}</span>\n<div class="qiita-note-content">\n\n${trimmed}\n\n</div>\n</div>`;
+  });
+}
+
 function extractHeadings(html: string): Heading[] {
   const headings: Heading[] = [];
   const regex = /<h([2-3])\s+id="([^"]+)"[^>]*>(.*?)<\/h[2-3]>/g;
@@ -67,6 +93,11 @@ async function highlightCode(html: string): Promise<string> {
 
     const language = lang ?? "text";
 
+    // Mermaid blocks: wrap for client-side rendering instead of syntax highlighting
+    if (language === "mermaid") {
+      return `<div class="mermaid-block"><pre class="mermaid">${decodedCode.trim()}</pre></div>`;
+    }
+
     try {
       const highlighted = highlighter.codeToHtml(decodedCode.trim(), {
         lang: language,
@@ -82,13 +113,18 @@ async function highlightCode(html: string): Promise<string> {
 export async function markdownToHtml(
   markdown: string
 ): Promise<{ html: string; headings: Heading[] }> {
+  // Preprocess Qiita-style note blocks
+  const preprocessed = preprocessNoteBlocks(markdown);
+
   const result = await unified()
     .use(remarkParse)
     .use(remarkGfm)
+    .use(remarkMath)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeSlug)
+    .use(rehypeKatex)
     .use(rehypeStringify, { allowDangerousHtml: true })
-    .process(markdown);
+    .process(preprocessed);
 
   let html = result.toString();
   html = await highlightCode(html);

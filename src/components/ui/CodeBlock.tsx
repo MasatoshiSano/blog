@@ -14,6 +14,7 @@ export function CodeBlock({ htmlContent, className }: CodeBlockProps) {
   useEffect(() => {
     if (!ref.current) return;
 
+    // Add copy buttons to code blocks
     const wrappers =
       ref.current.querySelectorAll<HTMLElement>(".code-block-wrapper");
 
@@ -39,6 +40,26 @@ export function CodeBlock({ htmlContent, className }: CodeBlockProps) {
 
       wrapper.appendChild(btn);
     });
+
+    // Render Mermaid diagrams
+    const mermaidBlocks =
+      ref.current.querySelectorAll<HTMLElement>(".mermaid-block pre.mermaid");
+
+    if (mermaidBlocks.length > 0) {
+      import("mermaid").then((mod) => {
+        const mermaid = mod.default;
+        mermaid.initialize({ startOnLoad: false, theme: "default" });
+        mermaidBlocks.forEach((block) => {
+          if (block.getAttribute("data-mermaid-rendered")) return;
+          block.setAttribute("data-mermaid-rendered", "true");
+          const code = block.textContent ?? "";
+          const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+          mermaid.render(id, code).then(({ svg }) => {
+            block.innerHTML = svg;
+          });
+        });
+      });
+    }
   }, [htmlContent]);
 
   // Content is generated from local markdown files via the build-time markdown pipeline

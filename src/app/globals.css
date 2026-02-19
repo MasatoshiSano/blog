@@ -23,3 +23,75 @@
 .prose .code-block-wrapper pre {
   margin: 0;
 }
+
+/* Qiita-style note blocks */
+.qiita-note {
+  margin: 1.5rem 0;
+  padding: 1rem 1rem 1rem 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid;
+}
+
+.qiita-note-icon {
+  font-size: 1.1rem;
+  margin-right: 0.25rem;
+}
+
+.qiita-note-content {
+  margin-top: 0.25rem;
+}
+
+.qiita-note-content > *:first-child {
+  margin-top: 0;
+}
+
+.qiita-note-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.qiita-note-info {
+  background-color: #eff6ff;
+  border-left-color: #3b82f6;
+  color: #1e40af;
+}
+
+.qiita-note-warn {
+  background-color: #fffbeb;
+  border-left-color: #f59e0b;
+  color: #92400e;
+}
+
+.qiita-note-alert {
+  background-color: #fef2f2;
+  border-left-color: #ef4444;
+  color: #991b1b;
+}
+
+.prose .qiita-note p {
+  margin: 0.5rem 0;
+}
+
+/* Mermaid diagram blocks */
+.mermaid-block {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.mermaid-block pre.mermaid {
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.prose .mermaid-block pre {
+  margin: 0;
+  background: transparent;
+}
+
+/* KaTeX overrides for prose */
+.prose .katex-display {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
