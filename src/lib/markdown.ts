@@ -85,6 +85,10 @@ async function highlightCode(html: string): Promise<string> {
 
   return html.replace(codeBlockRegex, (_match, lang, code) => {
     const decodedCode = code
+      .replace(/&#x3C;/gi, "<")
+      .replace(/&#x3E;/gi, ">")
+      .replace(/&#60;/g, "<")
+      .replace(/&#62;/g, ">")
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">")
       .replace(/&amp;/g, "&")
