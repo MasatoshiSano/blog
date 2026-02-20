@@ -24,6 +24,32 @@ export class BlogStack extends cdk.Stack {
       encryption: s3.BucketEncryption.S3_MANAGED,
     });
 
+    // CloudFront Function to rewrite URLs (append .html for clean URLs)
+    const urlRewriteFunction = new cloudfront.Function(
+      this,
+      "UrlRewriteFunction",
+      {
+        code: cloudfront.FunctionCode.fromInline(`
+function handler(event) {
+  var request = event.request;
+  var uri = request.uri;
+
+  // If URI ends with '/', serve index.html
+  if (uri.endsWith('/')) {
+    request.uri += 'index.html';
+  }
+  // If URI doesn't have a file extension, append .html
+  else if (!uri.includes('.')) {
+    request.uri += '.html';
+  }
+
+  return request;
+}
+`),
+        runtime: cloudfront.FunctionRuntime.JS_2_0,
+      }
+    );
+
     // CloudFront distribution with OAC for both buckets
     const distribution = new cloudfront.Distribution(this, "Distribution", {
       defaultBehavior: {
@@ -31,6 +57,12 @@ export class BlogStack extends cdk.Stack {
         viewerProtocolPolicy:
           cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
+        functionAssociations: [
+          {
+            function: urlRewriteFunction,
+            eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+          },
+        ],
       },
       additionalBehaviors: {
         "/media/*": {
