@@ -38,12 +38,16 @@ function handler(event) {
   if (uri.endsWith('/')) {
     request.uri += 'index.html';
   }
-  // If URI already ends with a known static file extension, pass through
-  else if (uri.match(/\\.(html|css|js|json|xml|txt|ico|png|jpg|jpeg|gif|svg|webp|woff2?|ttf|eot|map)$/)) {
+  // Static asset paths - pass through without rewriting
+  else if (uri.startsWith('/_next/') || uri.startsWith('/images/')) {
     // No rewrite needed
   }
-  // Otherwise append .html (handles tags like Next.js, paths with dots)
-  else {
+  // Known non-HTML file extensions - pass through
+  else if (uri.endsWith('.xml') || uri.endsWith('.ico') || uri.endsWith('.txt')) {
+    // No rewrite needed
+  }
+  // Everything else: append .html (pages, tags like Next.js, categories)
+  else if (!uri.endsWith('.html')) {
     request.uri += '.html';
   }
 
