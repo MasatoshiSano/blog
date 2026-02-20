@@ -78,22 +78,33 @@ function extractHeadings(html: string): Heading[] {
   return headings;
 }
 
+const HTML_ENTITY_MAP: Record<string, string> = {
+  "&lt;": "<",
+  "&gt;": ">",
+  "&amp;": "&",
+  "&quot;": '"',
+  "&#39;": "'",
+  "&#x27;": "'",
+};
+
+// Matches named entities (&lt; &gt; &amp; &quot;), decimal (&#60;), and hex (&#x3C;)
+const HTML_ENTITY_RE = /&(?:#x([0-9a-fA-F]+)|#(\d+)|[a-zA-Z]+);/g;
+
+function decodeHtmlEntities(text: string): string {
+  return text.replace(HTML_ENTITY_RE, (entity, hex, dec) => {
+    if (hex) return String.fromCodePoint(parseInt(hex, 16));
+    if (dec) return String.fromCodePoint(parseInt(dec, 10));
+    return HTML_ENTITY_MAP[entity] ?? entity;
+  });
+}
+
 async function highlightCode(html: string): Promise<string> {
   const highlighter = await getHighlighter();
   const codeBlockRegex =
     /<pre><code(?:\s+class="language-(\w+)")?>([\s\S]*?)<\/code><\/pre>/g;
 
   return html.replace(codeBlockRegex, (_match, lang, code) => {
-    const decodedCode = code
-      .replace(/&#x3C;/gi, "<")
-      .replace(/&#x3E;/gi, ">")
-      .replace(/&#60;/g, "<")
-      .replace(/&#62;/g, ">")
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&amp;/g, "&")
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'");
+    const decodedCode = decodeHtmlEntities(code);
 
     const language = lang ?? "text";
 

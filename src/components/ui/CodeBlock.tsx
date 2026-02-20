@@ -7,11 +7,15 @@ interface CodeBlockProps {
   className?: string;
 }
 
+let mermaidInitialized = false;
+
 export function CodeBlock({ htmlContent, className }: CodeBlockProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
+
+    const controllers: AbortController[] = [];
 
     const wrappers =
       ref.current.querySelectorAll<HTMLElement>(".code-block-wrapper");
@@ -23,16 +27,23 @@ export function CodeBlock({ htmlContent, className }: CodeBlockProps) {
       btn.setAttribute("data-copy-btn", "true");
       btn.textContent = "Copy";
 
-      btn.addEventListener("click", async () => {
-        const code = wrapper.querySelector("code");
-        if (code) {
-          await navigator.clipboard.writeText(code.textContent ?? "");
-          btn.textContent = "Copied!";
-          setTimeout(() => {
-            btn.textContent = "Copy";
-          }, 2000);
-        }
-      });
+      const controller = new AbortController();
+      controllers.push(controller);
+
+      btn.addEventListener(
+        "click",
+        async () => {
+          const code = wrapper.querySelector("code");
+          if (code) {
+            await navigator.clipboard.writeText(code.textContent ?? "");
+            btn.textContent = "Copied!";
+            setTimeout(() => {
+              btn.textContent = "Copy";
+            }, 2000);
+          }
+        },
+        { signal: controller.signal }
+      );
 
       wrapper.appendChild(btn);
     });
@@ -44,7 +55,10 @@ export function CodeBlock({ htmlContent, className }: CodeBlockProps) {
     if (mermaidBlocks.length > 0) {
       import("mermaid").then((mod) => {
         const mermaid = mod.default;
-        mermaid.initialize({ startOnLoad: false, theme: "default" });
+        if (!mermaidInitialized) {
+          mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "strict" });
+          mermaidInitialized = true;
+        }
         mermaidBlocks.forEach((block) => {
           if (block.getAttribute("data-mermaid-rendered")) return;
           block.setAttribute("data-mermaid-rendered", "true");
@@ -56,6 +70,12 @@ export function CodeBlock({ htmlContent, className }: CodeBlockProps) {
         });
       });
     }
+
+    return () => {
+      for (const controller of controllers) {
+        controller.abort();
+      }
+    };
   }, [htmlContent]);
 
   return (
