@@ -16,18 +16,18 @@ export function SeriesNav({ series, posts, currentSlug }: SeriesNavProps) {
   if (!prevPost && !nextPost) return null;
 
   return (
-    <nav className="mt-8 rounded-lg border border-gray-200 p-5">
-      <h3 className="mb-4 text-sm font-semibold text-gray-500">
+    <nav className="mt-8 rounded-lg border border-gray-200 p-5 dark:border-gray-800">
+      <h3 className="mb-4 text-sm font-semibold text-gray-500 dark:text-gray-400">
         シリーズ: {series} ({currentIndex + 1}/{posts.length})
       </h3>
       <div className="flex justify-between gap-4">
         {prevPost ? (
           <Link
             href={`/posts/${prevPost.slug}`}
-            className="flex-1 rounded-lg border border-gray-200 p-3 text-sm transition-colors hover:bg-gray-50"
+            className="flex-1 rounded-lg border border-gray-200 p-3 text-sm transition-colors hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800"
           >
-            <span className="text-xs text-gray-400">前の記事</span>
-            <div className="mt-1 font-medium text-gray-700">
+            <span className="text-xs text-gray-400 dark:text-gray-500">前の記事</span>
+            <div className="mt-1 font-medium text-gray-700 dark:text-gray-300">
               {prevPost.emoji} {prevPost.title}
             </div>
           </Link>
@@ -37,10 +37,10 @@ export function SeriesNav({ series, posts, currentSlug }: SeriesNavProps) {
         {nextPost ? (
           <Link
             href={`/posts/${nextPost.slug}`}
-            className="flex-1 rounded-lg border border-gray-200 p-3 text-right text-sm transition-colors hover:bg-gray-50"
+            className="flex-1 rounded-lg border border-gray-200 p-3 text-right text-sm transition-colors hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800"
           >
-            <span className="text-xs text-gray-400">次の記事</span>
-            <div className="mt-1 font-medium text-gray-700">
+            <span className="text-xs text-gray-400 dark:text-gray-500">次の記事</span>
+            <div className="mt-1 font-medium text-gray-700 dark:text-gray-300">
               {nextPost.title} {nextPost.emoji}
             </div>
           </Link>

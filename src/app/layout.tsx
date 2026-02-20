@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,13 +19,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja">
-      <body className="flex min-h-screen flex-col bg-white text-gray-900">
-        <Header />
-        <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
-          {children}
-        </main>
-        <Footer />
+    <html lang="ja" suppressHydrationWarning>
+      <body className="flex min-h-screen flex-col bg-white text-gray-900 transition-colors dark:bg-gray-950 dark:text-gray-100">
+        <ThemeProvider>
+          <Header />
+          <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -52,7 +52,7 @@ export function SearchModal({ searchIndex }: SearchModalProps) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-500 transition-colors hover:border-gray-300 hover:text-gray-700"
+        className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-500 transition-colors hover:border-gray-300 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400"
         aria-label="検索を開く"
       >
         <svg
@@ -70,7 +70,7 @@ export function SearchModal({ searchIndex }: SearchModalProps) {
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
         <span className="hidden sm:inline">検索</span>
-        <kbd className="hidden sm:inline-block rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-xs text-gray-400">
+        <kbd className="hidden sm:inline-block rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-xs text-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-500">
           ⌘K
         </kbd>
       </button>
@@ -85,10 +85,10 @@ export function SearchModal({ searchIndex }: SearchModalProps) {
         >
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
           <div
-            className="relative z-10 w-full max-w-lg rounded-xl border border-gray-200 bg-white shadow-2xl"
+            className="relative z-10 w-full max-w-lg rounded-xl border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-900"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center border-b border-gray-200 px-4">
+            <div className="flex items-center border-b border-gray-200 px-4 dark:border-gray-700">
               <svg
                 width="18"
                 height="18"
@@ -96,7 +96,7 @@ export function SearchModal({ searchIndex }: SearchModalProps) {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="shrink-0 text-gray-400"
+                className="shrink-0 text-gray-400 dark:text-gray-500"
                 aria-hidden="true"
               >
                 <circle cx="11" cy="11" r="8" />
@@ -108,11 +108,11 @@ export function SearchModal({ searchIndex }: SearchModalProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="記事を検索..."
-                className="w-full px-3 py-4 text-base outline-none"
+                className="w-full bg-transparent px-3 py-4 text-base outline-none dark:text-white dark:placeholder-gray-500"
               />
               <button
                 onClick={() => setIsOpen(false)}
-                className="shrink-0 rounded border border-gray-200 px-2 py-0.5 text-xs text-gray-400"
+                className="shrink-0 rounded border border-gray-200 px-2 py-0.5 text-xs text-gray-400 dark:border-gray-700 dark:text-gray-500"
               >
                 ESC
               </button>
@@ -127,13 +127,13 @@ export function SearchModal({ searchIndex }: SearchModalProps) {
                         <Link
                           href={`/posts/${item.slug}`}
                           onClick={() => setIsOpen(false)}
-                          className="block rounded-lg px-3 py-2.5 transition-colors hover:bg-gray-50"
+                          className="block rounded-lg px-3 py-2.5 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
                         >
-                          <div className="font-medium text-gray-900">
+                          <div className="font-medium text-gray-900 dark:text-white">
                             {item.title}
                           </div>
                           <div className="mt-0.5 flex items-center gap-2 text-xs text-gray-500">
-                            <span className="rounded bg-primary-50 px-1.5 py-0.5 text-primary-700">
+                            <span className="rounded bg-primary-50 px-1.5 py-0.5 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
                               {item.category}
                             </span>
                             {item.topics.slice(0, 3).map((topic) => (
@@ -145,7 +145,7 @@ export function SearchModal({ searchIndex }: SearchModalProps) {
                     ))}
                   </ul>
                 ) : (
-                  <p className="px-3 py-6 text-center text-sm text-gray-500">
+                  <p className="px-3 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
                     &ldquo;{query}&rdquo;に一致する記事が見つかりませんでした
                   </p>
                 )}

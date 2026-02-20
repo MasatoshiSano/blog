@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "selector",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -27,10 +28,12 @@ const config: Config = {
           css: {
             maxWidth: "none",
             code: {
-              backgroundColor: "#f3f4f6",
-              padding: "0.125rem 0.25rem",
+              backgroundColor: "#1e1e2e",
+              color: "#cdd6f4",
+              padding: "0.125rem 0.375rem",
               borderRadius: "0.25rem",
               fontWeight: "400",
+              fontSize: "0.875em",
             },
             "code::before": { content: '""' },
             "code::after": { content: '""' },

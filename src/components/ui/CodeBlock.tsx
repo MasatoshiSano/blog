@@ -3,16 +3,19 @@
 import { useEffect, useRef } from "react";
 
 interface CodeBlockProps {
-  // HTML content from markdown pipeline (trusted, generated at build time from local .md files)
   htmlContent: string;
   className?: string;
 }
+
+let mermaidInitialized = false;
 
 export function CodeBlock({ htmlContent, className }: CodeBlockProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
+
+    const controllers: AbortController[] = [];
 
     const wrappers =
       ref.current.querySelectorAll<HTMLElement>(".code-block-wrapper");
@@ -23,26 +26,58 @@ export function CodeBlock({ htmlContent, className }: CodeBlockProps) {
       const btn = document.createElement("button");
       btn.setAttribute("data-copy-btn", "true");
       btn.textContent = "Copy";
-      btn.className =
-        "absolute top-2 right-2 rounded border border-gray-200 bg-white/80 px-2 py-1 text-xs text-gray-600 transition-colors hover:bg-white";
 
-      btn.addEventListener("click", async () => {
-        const code = wrapper.querySelector("code");
-        if (code) {
-          await navigator.clipboard.writeText(code.textContent ?? "");
-          btn.textContent = "Copied!";
-          setTimeout(() => {
-            btn.textContent = "Copy";
-          }, 2000);
-        }
-      });
+      const controller = new AbortController();
+      controllers.push(controller);
+
+      btn.addEventListener(
+        "click",
+        async () => {
+          const code = wrapper.querySelector("code");
+          if (code) {
+            await navigator.clipboard.writeText(code.textContent ?? "");
+            btn.textContent = "Copied!";
+            setTimeout(() => {
+              btn.textContent = "Copy";
+            }, 2000);
+          }
+        },
+        { signal: controller.signal }
+      );
 
       wrapper.appendChild(btn);
     });
+
+    // Render Mermaid diagrams
+    const mermaidBlocks =
+      ref.current.querySelectorAll<HTMLElement>(".mermaid-block pre.mermaid");
+
+    if (mermaidBlocks.length > 0) {
+      import("mermaid").then((mod) => {
+        const mermaid = mod.default;
+        if (!mermaidInitialized) {
+          mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "strict" });
+          mermaidInitialized = true;
+        }
+        mermaidBlocks.forEach((block) => {
+          if (block.getAttribute("data-mermaid-rendered")) return;
+          block.setAttribute("data-mermaid-rendered", "true");
+          const code = block.textContent ?? "";
+          const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+          mermaid.render(id, code).then(({ svg }) => {
+            block.innerHTML = svg;
+          });
+        });
+      });
+    }
+
+    return () => {
+      for (const controller of controllers) {
+        controller.abort();
+      }
+    };
   }, [htmlContent]);
 
-  // Content is generated from local markdown files via the build-time markdown pipeline
-  // (remark/rehype/shiki), not from user input - safe to render as HTML
   return (
     <div
       ref={ref}

@@ -12,6 +12,11 @@ import type {
 const POSTS_DIR = path.join(process.cwd(), "content", "posts");
 const POSTS_PER_PAGE = 12;
 
+// Build-time cache: avoids redundant filesystem reads when multiple
+// functions (getPaginatedPosts, getAllCategories, getAllTags, etc.)
+// each call getAllPosts() during the same build process.
+let cachedAllPosts: Post[] | null = null;
+
 function getPostFiles(): string[] {
   if (!fs.existsSync(POSTS_DIR)) return [];
   return fs
@@ -20,7 +25,9 @@ function getPostFiles(): string[] {
 }
 
 export function getPost(slug: string): Post | null {
-  const filePath = path.join(POSTS_DIR, `${slug}.md`);
+  // Sanitize slug to prevent path traversal
+  const sanitizedSlug = path.basename(slug);
+  const filePath = path.join(POSTS_DIR, `${sanitizedSlug}.md`);
   if (!fs.existsSync(filePath)) return null;
 
   const fileContent = fs.readFileSync(filePath, "utf-8");
@@ -40,6 +47,8 @@ export function getPost(slug: string): Post | null {
 }
 
 export function getAllPosts(): Post[] {
+  if (cachedAllPosts) return cachedAllPosts;
+
   const files = getPostFiles();
 
   const posts = files
@@ -49,9 +58,11 @@ export function getAllPosts(): Post[] {
     })
     .filter((post): post is Post => post !== null);
 
-  return posts.sort(
+  cachedAllPosts = posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
+
+  return cachedAllPosts;
 }
 
 export function getPostsByCategory(category: string): Post[] {
