@@ -9,7 +9,7 @@ const options = [1, 2, 3] as const;
 
 export function ColumnToggle({ columns, onChange }: ColumnToggleProps) {
   return (
-    <div className="flex items-center gap-1 rounded-lg border border-gray-200 p-1">
+    <div className="flex items-center gap-1 rounded-lg border border-gray-200 p-1 dark:border-gray-700">
       {options.map((n) => (
         <button
           key={n}
@@ -17,7 +17,7 @@ export function ColumnToggle({ columns, onChange }: ColumnToggleProps) {
           className={`flex items-center justify-center rounded px-2 py-1 text-xs transition-colors ${
             columns === n
               ? "bg-primary-500 text-white"
-              : "text-gray-500 hover:bg-gray-100"
+              : "text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
           }`}
           aria-label={`${n}列表示`}
         >

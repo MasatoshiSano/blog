@@ -10,16 +10,16 @@ export function CategoryList({ categories }: CategoryListProps) {
 
   return (
     <div className="pt-4 first:pt-0">
-      <h3 className="mb-3 text-sm font-semibold text-gray-900">カテゴリ</h3>
+      <h3 className="mb-3 text-sm font-semibold text-gray-900 dark:text-gray-100">カテゴリ</h3>
       <ul className="space-y-1.5">
         {categories.map((cat) => (
           <li key={cat.name}>
             <Link
               href={`/categories/${cat.name}`}
-              className="flex items-center justify-between rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900"
+              className="flex items-center justify-between rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
             >
               <span>{cat.name}</span>
-              <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
+              <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500 dark:bg-gray-800 dark:text-gray-400">
                 {cat.count}
               </span>
             </Link>

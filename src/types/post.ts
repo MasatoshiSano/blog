@@ -10,6 +10,8 @@ export interface PostFrontmatter {
   featured?: boolean;
   series?: string;
   seriesOrder?: number;
+  coverImage?: string;
+  description?: string;
 }
 
 export interface Heading {

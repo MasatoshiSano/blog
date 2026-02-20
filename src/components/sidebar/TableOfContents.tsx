@@ -36,7 +36,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <nav className="pt-4 first:pt-0">
-      <h3 className="mb-3 text-sm font-semibold text-gray-900">目次</h3>
+      <h3 className="mb-3 text-sm font-semibold text-gray-900 dark:text-gray-100">目次</h3>
       <ul className="space-y-1">
         {headings.map((heading) => (
           <li
@@ -47,8 +47,8 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
               href={`#${heading.id}`}
               className={`block rounded py-1 px-2 text-xs leading-relaxed transition-colors ${
                 activeId === heading.id
-                  ? "bg-primary-50 font-medium text-primary-700"
-                  : "text-gray-500 hover:text-gray-700"
+                  ? "bg-primary-50 font-medium text-primary-700 dark:bg-primary-900/30 dark:text-primary-300"
+                  : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
               }`}
             >
               {heading.text}

@@ -103,7 +103,8 @@ async function highlightCode(html: string): Promise<string> {
         lang: language,
         theme: "github-dark",
       });
-      return `<div class="code-block-wrapper" data-language="${language}">${highlighted}</div>`;
+      const langLabel = `<span class="code-language">${language}</span>`;
+      return `<div class="code-block-wrapper" data-language="${language}">${langLabel}${highlighted}</div>`;
     } catch {
       return `<div class="code-block-wrapper" data-language="${language}"><pre><code>${code}</code></pre></div>`;
     }

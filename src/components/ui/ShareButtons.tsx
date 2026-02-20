@@ -20,12 +20,12 @@ export function ShareButtons({ title }: ShareButtonsProps) {
 
   return (
     <div className="mt-8 flex items-center gap-3">
-      <span className="text-sm text-gray-500">共有:</span>
+      <span className="text-sm text-gray-500 dark:text-gray-400">共有:</span>
       <a
         href={twitterUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900"
+        className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
       >
         <svg
           width="16"
@@ -42,7 +42,7 @@ export function ShareButtons({ title }: ShareButtonsProps) {
         href={hatenaUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900"
+        className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
       >
         <svg
           width="16"

@@ -37,7 +37,7 @@ export function ArticleList({ posts }: ArticleListProps) {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <p className="text-sm text-gray-500">{posts.length}件の記事</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{posts.length}件の記事</p>
         <ColumnToggle columns={columns} onChange={handleColumnsChange} />
       </div>
       <div className={`grid gap-6 ${gridClass}`}>

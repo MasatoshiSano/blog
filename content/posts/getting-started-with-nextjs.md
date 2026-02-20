@@ -9,6 +9,8 @@ date: "2025-01-15"
 featured: true
 series: "Next.js入門"
 seriesOrder: 1
+coverImage: "/images/posts/laptop-code.jpg"
+description: "Next.js 15のApp Routerを使って、静的サイト生成(SSG)でモダンなブログを構築する方法を紹介します。"
 ---
 
 ## はじめに

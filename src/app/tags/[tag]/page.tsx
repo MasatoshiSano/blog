@@ -39,7 +39,7 @@ export default async function TagPage({ params }: TagPageProps) {
   return (
     <div className="flex gap-8">
       <div className="min-w-0 flex-1">
-        <h1 className="mb-6 text-2xl font-bold text-gray-900">
+        <h1 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
           <span className="text-gray-400">タグ:</span> {decodedTag}
         </h1>
         <ArticleList posts={posts} />

@@ -7,7 +7,7 @@ interface SidebarProps {
 export function Sidebar({ children }: SidebarProps) {
   return (
     <aside className="hidden lg:block w-72 shrink-0">
-      <div className="sticky top-20 space-y-6 divide-y divide-gray-200">
+      <div className="sticky top-20 space-y-6 divide-y divide-gray-200 dark:divide-gray-800">
         {children}
       </div>
     </aside>

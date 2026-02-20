@@ -27,7 +27,7 @@ export function Pagination({
               ? basePath || "/"
               : `${basePath}/page/${currentPage - 1}`
           }
-          className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 transition-colors hover:bg-gray-50"
+          className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
         >
           前へ
         </Link>
@@ -40,7 +40,7 @@ export function Pagination({
           className={`rounded-lg px-3 py-2 text-sm transition-colors ${
             page === currentPage
               ? "bg-primary-500 text-white"
-              : "border border-gray-200 text-gray-600 hover:bg-gray-50"
+              : "border border-gray-200 text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
           }`}
         >
           {page}
@@ -50,7 +50,7 @@ export function Pagination({
       {currentPage < totalPages && (
         <Link
           href={`${basePath}/page/${currentPage + 1}`}
-          className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 transition-colors hover:bg-gray-50"
+          className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
         >
           次へ
         </Link>
