@@ -43,7 +43,7 @@ function handler(event) {
     // No rewrite needed
   }
   // Known non-HTML file extensions - pass through
-  else if (uri.endsWith('.xml') || uri.endsWith('.ico') || uri.endsWith('.txt')) {
+  else if (uri.endsWith('.xml') || uri.endsWith('.ico') || uri.endsWith('.txt') || uri.endsWith('.svg') || uri.endsWith('.png') || uri.endsWith('.jpg') || uri.endsWith('.webp') || uri.endsWith('.json')) {
     // No rewrite needed
   }
   // Everything else: append .html (pages, tags like Next.js, categories)
