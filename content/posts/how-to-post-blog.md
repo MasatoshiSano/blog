@@ -305,3 +305,82 @@ published: false
 2. フロントマターでメタデータを設定
 3. Markdownで本文を記述（Qiita互換記法も利用可能）
 4. `git push origin main` で自動デプロイ
+
+## サンプル：実際のMarkdownファイル全文
+
+以下が実際に投稿できる記事の完成形です。`content/posts/my-first-article.md` としてそのまま使えます。
+
+````markdown
+---
+title: "TypeScriptで型安全なAPIクライアントを作る"
+emoji: "🔐"
+type: "tech"
+topics: ["TypeScript", "React", "API"]
+published: true
+category: "Frontend"
+date: "2026-02-21"
+description: "fetchをラップして型安全なAPIクライアントを実装する方法を解説します。"
+---
+
+## はじめに
+
+TypeScriptでAPIを叩くとき、レスポンスの型が `any` になってしまうことはよくあります。
+この記事では、型安全なAPIクライアントを作る方法を紹介します。
+
+:::note info
+この記事のコードはTypeScript 5.x以降を対象としています。
+:::
+
+## 基本的な実装
+
+まずはシンプルなfetchラッパーから始めましょう。
+
+```typescript
+async function fetchApi<T>(url: string): Promise<T> {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`HTTP error: ${res.status}`);
+  }
+  return res.json() as Promise<T>;
+}
+```
+
+使い方はこうなります。
+
+```typescript
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+
+const user = await fetchApi<User>("/api/users/1");
+console.log(user.name); // 型補完が効く！
+```
+
+## エラーハンドリングを追加する
+
+:::note warn
+本番環境では必ずエラーハンドリングを実装してください。
+:::
+
+```typescript
+type ApiResult<T> =
+  | { ok: true; data: T }
+  | { ok: false; error: string };
+
+async function fetchApiSafe<T>(url: string): Promise<ApiResult<T>> {
+  try {
+    const data = await fetchApi<T>(url);
+    return { ok: true, data };
+  } catch (e) {
+    return { ok: false, error: String(e) };
+  }
+}
+```
+
+## まとめ
+
+- ジェネリクスを使うと型安全なAPIクライアントが作れる
+- エラーハンドリングは `Result` 型でまとめると扱いやすい
+````
