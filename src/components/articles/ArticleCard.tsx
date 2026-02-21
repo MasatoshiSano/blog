@@ -1,18 +1,28 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Post } from "@/types/post";
+import { getUnsplashImageForSlug } from "@/lib/unsplash";
 
 interface ArticleCardProps {
   post: Post;
 }
 
 export function ArticleCard({ post }: ArticleCardProps) {
+  const unsplashImage = !post.coverImage ? getUnsplashImageForSlug(post.slug) : null;
+
   return (
     <article className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900">
       <Link href={`/posts/${post.slug}`} className="block">
         {post.coverImage ? (
           <div className="relative aspect-video w-full overflow-hidden">
             <Image src={post.coverImage} alt={post.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        ) : unsplashImage ? (
+          <div className="relative aspect-video w-full overflow-hidden">
+            <Image src={unsplashImage.url} alt={post.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+            <span className="absolute bottom-1 right-1 text-[10px] text-white/60 drop-shadow">
+              {unsplashImage.photographer} / Unsplash
+            </span>
           </div>
         ) : (
           <div className="flex h-32 items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 text-4xl dark:from-gray-800 dark:to-gray-900">{post.emoji}</div>

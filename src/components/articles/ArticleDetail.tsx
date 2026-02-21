@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import type { Post } from "@/types/post";
+import { getUnsplashImageForSlug } from "@/lib/unsplash";
 
 interface ArticleDetailProps {
   post: Post;
@@ -11,15 +12,30 @@ interface ArticleDetailProps {
 }
 
 export function ArticleDetail({ post, htmlContent }: ArticleDetailProps) {
+  const unsplashImage = !post.coverImage ? getUnsplashImageForSlug(post.slug) : null;
+  const imageSrc = post.coverImage ?? unsplashImage?.url;
+
   return (
     <article className="animate-fade-in-up">
-      {post.coverImage && (
+      {imageSrc && (
         <div className="relative -mx-4 mb-8 aspect-[21/9] overflow-hidden rounded-2xl sm:mx-0">
-          <Image src={post.coverImage} alt={post.title} fill className="object-cover" priority />
+          <Image src={imageSrc} alt={post.title} fill className="object-cover" priority />
+          {unsplashImage && (
+            <p className="absolute bottom-2 right-2 text-[11px] text-white/70 drop-shadow">
+              Photo by{" "}
+              <a href={unsplashImage.photographerUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">
+                {unsplashImage.photographer}
+              </a>{" "}
+              on{" "}
+              <a href={unsplashImage.unsplashUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">
+                Unsplash
+              </a>
+            </p>
+          )}
         </div>
       )}
       <header className="mb-8">
-        {!post.coverImage && <div className="mb-4 text-4xl">{post.emoji}</div>}
+        {!imageSrc && <div className="mb-4 text-4xl">{post.emoji}</div>}
         <h1 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">{post.title}</h1>
         <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
           <Link href={`/categories/${post.category}`} className="rounded-full bg-primary-50 px-3 py-0.5 text-xs font-medium text-primary-700 transition-colors hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-300 dark:hover:bg-primary-900/50">
