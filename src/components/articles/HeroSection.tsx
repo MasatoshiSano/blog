@@ -1,22 +1,26 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Post } from "@/types/post";
+import { getUnsplashImageForSlug } from "@/lib/unsplash";
 
 interface HeroSectionProps {
   post: Post;
 }
 
 export function HeroSection({ post }: HeroSectionProps) {
+  const unsplashImage = !post.coverImage ? getUnsplashImageForSlug(post.slug) : null;
+  const imageSrc = post.coverImage ?? unsplashImage?.url;
+
   return (
     <section className="mb-10 animate-fade-in-up">
       <Link
         href={`/posts/${post.slug}`}
         className="group block overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
       >
-        {post.coverImage ? (
+        {imageSrc ? (
           <div className="relative aspect-[21/9] w-full overflow-hidden">
             <Image
-              src={post.coverImage}
+              src={imageSrc}
               alt={post.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -32,9 +36,16 @@ export function HeroSection({ post }: HeroSectionProps) {
               {post.description && (
                 <p className="mb-3 line-clamp-2 text-sm text-gray-200 md:text-base">{post.description}</p>
               )}
-              <div className="flex items-center gap-3 text-sm text-gray-300">
-                <time dateTime={post.date}>{post.date}</time>
-                <span>{post.readingTime}分で読めます</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 text-sm text-gray-300">
+                  <time dateTime={post.date}>{post.date}</time>
+                  <span>{post.readingTime}分で読めます</span>
+                </div>
+                {unsplashImage && (
+                  <span className="text-[10px] text-white/50 drop-shadow">
+                    {unsplashImage.photographer} / Unsplash
+                  </span>
+                )}
               </div>
             </div>
           </div>
