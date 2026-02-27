@@ -2,7 +2,7 @@
 title: "本番で使えるWebSocket接続管理パターン — 再接続・ハートビート・ゾンビ接続対策"
 emoji: "🔌"
 type: "tech"
-topics: ["WebSocket", "TypeScript", "React", "AWS", "リアルタイム"]
+topics: ["WebSocket", "TypeScript", "React", "AWS", "Realtime", "Chat"]
 published: true
 category: "HowTo"
 date: "2026-02-28"

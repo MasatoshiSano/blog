@@ -2,7 +2,7 @@
 title: "このブログに記事を投稿する方法"
 emoji: "📝"
 type: "tech"
-topics: ["Next.js", "Markdown"]
+topics: ["Next.js", "Markdown", "Blog"]
 published: true
 category: "Guide"
 date: "2026-02-18"

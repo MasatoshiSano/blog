@@ -2,7 +2,7 @@
 title: "DynamoDB GSIでRAGナレッジ検索を実装する — ベクターDB無しで始めるAI知識活用"
 emoji: "🧠"
 type: "tech"
-topics: ["DynamoDB", "RAG", "AWS", "Bedrock", "TypeScript"]
+topics: ["DynamoDB", "RAG", "AWS", "Bedrock", "TypeScript", "Search"]
 published: true
 category: "Architecture"
 date: "2026-02-27"

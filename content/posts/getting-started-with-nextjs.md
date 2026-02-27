@@ -2,7 +2,7 @@
 title: "Next.js 15でブログを構築する"
 emoji: "🚀"
 type: "tech"
-topics: ["Next.js", "React", "TypeScript"]
+topics: ["Next.js", "React", "TypeScript", "Blog"]
 published: true
 category: "Frontend"
 date: "2025-01-15"

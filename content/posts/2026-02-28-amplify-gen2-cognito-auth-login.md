@@ -2,7 +2,7 @@
 title: "Amplify Gen 2 + Cognitoでログイン認証を実装する — defineAuthからJWT検証まで"
 emoji: "🔐"
 type: "tech"
-topics: ["Cognito", "Amplify", "React", "TypeScript", "AWS"]
+topics: ["Cognito", "Amplify", "React", "TypeScript", "AWS", "Auth"]
 published: true
 category: "HowTo"
 date: "2026-02-28"

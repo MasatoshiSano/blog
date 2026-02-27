@@ -2,7 +2,7 @@
 title: "Next.js + Tailwind CSSで実践するレスポンシブデザイン"
 emoji: "📱"
 type: "tech"
-topics: ["Next.js", "Tailwind CSS", "CSS", "React"]
+topics: ["Next.js", "Tailwind", "CSS", "React"]
 published: true
 category: "Frontend"
 date: "2026-02-19"

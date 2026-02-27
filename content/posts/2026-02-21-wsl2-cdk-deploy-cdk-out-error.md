@@ -2,7 +2,7 @@
 title: "WSL2でCDK deployが失敗する原因と解決策 - cdk.outの書き込みエラー"
 emoji: "🚧"
 type: "tech"
-topics: ["AWS", "CDK", "WSL2", "TypeScript", "インフラ"]
+topics: ["AWS", "CDK", "WSL2", "TypeScript", "Infra"]
 published: true
 category: "Debugging"
 date: "2026-02-21"

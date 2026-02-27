@@ -2,7 +2,7 @@
 title: "DynamoDB Single-Table Design でチャットのコネクション・メッセージ・ルームを管理する"
 emoji: "🗄️"
 type: "tech"
-topics: ["DynamoDB", "AWS", "NoSQL", "設計パターン", "チャット"]
+topics: ["DynamoDB", "AWS", "NoSQL", "Design", "Chat"]
 published: true
 category: "Architecture"
 date: "2026-02-28"

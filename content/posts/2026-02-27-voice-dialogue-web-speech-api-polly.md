@@ -2,7 +2,7 @@
 title: "AIチャットを完全音声化する — Web Speech API + Amazon Polly で双方向ボイス対話"
 emoji: "🎙️"
 type: "tech"
-topics: ["WebSpeechAPI", "AmazonPolly", "React", "AWS", "TypeScript"]
+topics: ["WebSpeech", "Polly", "React", "AWS", "TypeScript", "Voice"]
 published: true
 category: "HowTo"
 date: "2026-02-27"

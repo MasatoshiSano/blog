@@ -2,7 +2,7 @@
 title: "API Gateway WebSocket + Lambda + DynamoDB でリアルタイムチャットを構築する"
 emoji: "💬"
 type: "tech"
-topics: ["AWS", "WebSocket", "Lambda", "DynamoDB", "CDK"]
+topics: ["AWS", "WebSocket", "Lambda", "DynamoDB", "CDK", "Chat"]
 published: true
 category: "Architecture"
 date: "2026-02-28"
