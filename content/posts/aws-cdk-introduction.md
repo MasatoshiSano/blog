@@ -1,5 +1,5 @@
 ---
-title: "AWS CDKでインフラをコードで管理する"
+title: "AWS CDKでインフラをコード管理する — TypeScriptで始めるIaC入門"
 emoji: "☁️"
 type: "tech"
 topics: ["AWS", "CDK", "TypeScript"]
@@ -7,11 +7,18 @@ published: true
 category: "Infrastructure"
 date: "2025-01-05"
 featured: false
+description: "AWS CDKを使ってTypeScriptでインフラを定義・デプロイする方法を紹介。CloudFormationとの違い、基本概念、初めてのスタック作成まで。"
 ---
 
 ## AWS CDKとは
 
 AWS Cloud Development Kit（CDK）は、TypeScriptやPythonなどのプログラミング言語でAWSインフラを定義できるフレームワークです。
+
+## こんな人向け
+
+- AWSインフラをコンソール手作業で管理していて、コード化したい
+- CloudFormation（YAML/JSON）が辛く、プログラミング言語で書きたい
+- TypeScriptでAWSリソースを定義・デプロイする方法を知りたい
 
 ## 基本的な使い方
 

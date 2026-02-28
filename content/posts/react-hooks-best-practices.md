@@ -1,5 +1,5 @@
 ---
-title: "React Hooksのベストプラクティス"
+title: "React Hooksのベストプラクティス — useEffect・useCallback・カスタムフック設計"
 emoji: "⚛️"
 type: "tech"
 topics: ["React", "TypeScript"]
@@ -14,6 +14,13 @@ seriesOrder: 2
 ## React Hooksの基本原則
 
 React Hooksを効果的に使うためのベストプラクティスを紹介します。
+
+## こんな人向け
+
+- React Hooksを使い始めたが、正しい使い方に自信がない
+- `useEffect`の依存配列やクリーンアップ処理でハマっている
+- カスタムフックの設計パターンを学びたい
+- `useCallback`/`useMemo`をいつ使うべきか判断基準を知りたい
 
 ## useStateの最適化
 

@@ -1,5 +1,5 @@
 ---
-title: "AIチャットを完全音声化する — Web Speech API + Amazon Polly で双方向ボイス対話"
+title: "AIチャットを完全音声化する — Web Speech API + Amazon Pollyで双方向ボイス対話"
 emoji: "🎙️"
 type: "tech"
 topics: ["WebSpeech", "Polly", "React", "AWS", "TypeScript", "Voice"]
@@ -26,6 +26,13 @@ AIチャットアプリで「ユーザーも声で話す、AIも声で答える�
 - `listening → processing → speaking → listening` のフェーズ制御パターン
 - ストリーミングAI応答との統合方法
 - **バイブコーディングでこの機能を実装するためのプロンプト例**
+
+## こんな人向け
+
+- AIチャットアプリに音声入力・音声読み上げ機能を追加したい
+- Web Speech APIの音声認識をリアルタイムで使う方法を知りたい
+- Amazon Pollyの Neural 音声を Lambda 経由で再生する実装パターンを探している
+- ストリーミングチャットと音声UIの状態管理をどう組み合わせるか悩んでいる
 
 ## 前提条件
 

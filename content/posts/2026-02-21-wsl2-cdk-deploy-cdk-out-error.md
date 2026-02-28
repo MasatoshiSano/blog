@@ -1,5 +1,5 @@
 ---
-title: "WSL2でCDK deployが失敗する原因と解決策 - cdk.outの書き込みエラー"
+title: "WSL2でCDK deployが失敗する原因と対策 — cdk.outの書き込みエラー"
 emoji: "🚧"
 type: "tech"
 topics: ["AWS", "CDK", "WSL2", "TypeScript", "Infra"]
@@ -7,6 +7,12 @@ published: true
 category: "Debugging"
 date: "2026-02-21"
 ---
+
+## こんな人向け
+
+- WSL2環境で `cdk deploy` 実行時に EACCES エラーが出て困っている
+- Windowsファイルシステム（`/mnt/c/`）上でCDKを動かしている
+- CDKの `cdk.out` ディレクトリに書き込めない原因がわからない
 
 ## 発生した問題
 

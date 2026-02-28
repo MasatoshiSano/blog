@@ -1,5 +1,5 @@
 ---
-title: "Next.js + Tailwind CSSで実践するレスポンシブデザイン"
+title: "Next.jsでレスポンシブデザインを実践する — Tailwind CSS v4でモバイルファースト構築"
 emoji: "📱"
 type: "tech"
 topics: ["Next.js", "Tailwind", "CSS", "React"]
@@ -17,6 +17,12 @@ description: "Next.js 15とTailwind CSS v4を使って、モバイルファー�
 
 ![レスポンシブデザインのイメージ](/images/posts/workspace.jpg)
 *モダンな開発環境でのレスポンシブデザイン開発*
+
+## こんな人向け
+
+- Next.js + Tailwind CSSでモバイル対応のUIを効率的に作りたい
+- レスポンシブデザインのブレークポイント設計に迷っている
+- Tailwind CSS v4のレスポンシブユーティリティの使い方を知りたい
 
 ## Tailwind CSSのブレークポイント
 

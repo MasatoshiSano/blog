@@ -1,5 +1,5 @@
 ---
-title: "Next.js 15でブログを構築する"
+title: "Next.js 15でブログを構築する — App Router + SSGで始めるモダンブログ"
 emoji: "🚀"
 type: "tech"
 topics: ["Next.js", "React", "TypeScript", "Blog"]
@@ -16,6 +16,12 @@ description: "Next.js 15のApp Routerを使って、静的サイト生成(SSG)�
 ## はじめに
 
 Next.js 15のApp Routerを使って、静的サイト生成(SSG)でブログを構築する方法を紹介します。
+
+## こんな人向け
+
+- Next.js 15のApp Routerでブログを一から構築したい
+- SSG（静的サイト生成）を使ったブログの作り方を知りたい
+- React + TypeScriptでモダンなブログを作る具体的な手順を探している
 
 ## プロジェクトのセットアップ
 

@@ -1,5 +1,5 @@
 ---
-title: "Tailwind CSSの実践的なTips集"
+title: "Tailwind CSSの実践的なTips集 — プロジェクトで即使えるテクニック"
 emoji: "🎨"
 type: "tech"
 topics: ["CSS", "Tailwind"]
@@ -7,11 +7,18 @@ published: true
 category: "Frontend"
 date: "2024-12-28"
 featured: false
+description: "Tailwind CSSを実プロジェクトで効率的に使うためのTipsを紹介。カスタムユーティリティ、レスポンシブパターン、ダークモード対応など。"
 ---
 
 ## Tailwind CSSを効率的に使う
 
 Tailwind CSSを実プロジェクトで使う際の実践的なTipsを紹介します。
+
+## こんな人向け
+
+- Tailwind CSSをプロジェクトに導入したが、効率的な書き方がわからない
+- カスタムユーティリティやプラグインの活用法を知りたい
+- ダークモード対応やレスポンシブの実装パターンを探している
 
 ## レスポンシブデザイン
 

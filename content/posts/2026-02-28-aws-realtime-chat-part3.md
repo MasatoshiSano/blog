@@ -1,5 +1,5 @@
 ---
-title: "API Gateway WebSocket + DynamoDB でリアルタイムチャットを作る（第3回：チャットルーム・既読管理編）"
+title: "サーバーレスでリアルタイムチャットを構築する（第3回：チャットルーム・既読管理編）— DynamoDBで未読カウント実装"
 emoji: "💬"
 type: "tech"
 topics: ["AWS", "Lambda", "DynamoDB", "TypeScript", "Chat"]
@@ -7,7 +7,7 @@ published: true
 category: "HowTo"
 date: "2026-02-28"
 description: "チャットルームの作成・参加者管理、アクティビティ参加時の自動作成、readBy配列による既読・未読管理、未読カウントの算出まで、DynamoDB Single Table Designで実装する方法を解説します。"
-series: "AWS リアルタイムチャット構築"
+series: "サーバーレスでリアルタイムチャット構築"
 seriesOrder: 3
 coverImage: "/images/posts/aws-realtime-chat-part3-cover.jpg"
 ---
@@ -28,6 +28,12 @@ coverImage: "/images/posts/aws-realtime-chat-part3-cover.jpg"
 - **アクティビティ参加時の自動作成**: イベントに参加したらグループチャットが自動で生まれる仕組み
 - **ルーム一覧の取得**: BatchGetCommand による効率的なデータ取得
 - **既読・未読管理**: `readBy` 配列を使った既読状態の追跡と未読カウントの算出
+
+## こんな人向け
+
+- チャットルームの作成・参加者管理をDynamoDBでどう設計するか悩んでいる
+- メッセージの既読・未読管理と未読カウントの算出方法を知りたい
+- DynamoDB Single Table Designでリレーション的なデータを扱うパターンを探している
 
 ## チャットルームの作成
 

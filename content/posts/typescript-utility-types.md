@@ -1,5 +1,5 @@
 ---
-title: "TypeScriptのユーティリティ型を使いこなす"
+title: "TypeScriptのユーティリティ型を使いこなす — Partial・Pick・Omitで型を自在に操る"
 emoji: "🔧"
 type: "tech"
 topics: ["TypeScript"]
@@ -7,11 +7,18 @@ published: true
 category: "Frontend"
 date: "2025-01-10"
 featured: true
+description: "TypeScript組み込みのユーティリティ型（Partial, Required, Pick, Omit, Record等）の使い方と実践的な活用パターンを紹介。"
 ---
 
 ## ユーティリティ型とは
 
 TypeScriptには、型変換を簡単に行うための組み込みユーティリティ型が多数用意されています。
+
+## こんな人向け
+
+- TypeScriptの型定義を毎回手書きしていて冗長に感じている
+- `Partial`、`Pick`、`Omit`などの組み込み型を使いこなしたい
+- 既存の型から派生型を効率的に作るパターンを知りたい
 
 ## よく使うユーティリティ型
 

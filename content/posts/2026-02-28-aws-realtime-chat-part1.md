@@ -1,5 +1,5 @@
 ---
-title: "API Gateway WebSocket + DynamoDB でリアルタイムチャットを作る（第1回：インフラ設計編）"
+title: "サーバーレスでリアルタイムチャットを構築する（第1回：インフラ設計編）— API Gateway WebSocket + DynamoDB"
 emoji: "⚡"
 type: "tech"
 topics: ["AWS", "CDK", "WebSocket", "DynamoDB", "Chat"]
@@ -7,7 +7,7 @@ published: true
 category: "HowTo"
 date: "2026-02-28"
 description: "AWS CDKでAPI Gateway WebSocket APIとDynamoDB Single Table Designを使ったリアルタイムチャットのインフラ設計を解説。接続管理・メッセージ・チャットルームを1テーブルで扱うキー設計パターンを紹介します。"
-series: "AWS リアルタイムチャット構築"
+series: "サーバーレスでリアルタイムチャット構築"
 seriesOrder: 1
 coverImage: "/images/posts/aws-realtime-chat-part1-cover.jpg"
 ---
@@ -27,6 +27,12 @@ coverImage: "/images/posts/aws-realtime-chat-part1-cover.jpg"
 - **API Gateway WebSocket API** の仕組みと CDK による定義
 - **DynamoDB Single Table Design** で接続・メッセージ・チャットルーム・既読状態を1テーブルに収めるキー設計
 - **CDK スタック構成** とデプロイ順序の設計
+
+## こんな人向け
+
+- AWSでリアルタイムチャット機能を構築したいが、インフラ設計がわからない
+- API Gateway WebSocket APIの仕組みとCDK定義方法を知りたい
+- DynamoDB Single Table Designでチャットデータをどう設計するか悩んでいる
 
 完成形のアーキテクチャは以下のとおりです。
 

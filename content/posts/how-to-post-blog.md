@@ -1,5 +1,5 @@
 ---
-title: "このブログに記事を投稿する方法"
+title: "このブログに記事を投稿する方法 — Markdown + GitHubで完結するワークフロー"
 emoji: "📝"
 type: "tech"
 topics: ["Next.js", "Markdown", "Blog"]
@@ -15,6 +15,12 @@ description: "Markdownファイルを作成してGitHubにプッシュするだ�
 ## 概要
 
 このブログはGitリポジトリ内のMarkdownファイルで記事を管理しています。新しい記事を投稿するには、Markdownファイルを作成してGitHubにプッシュするだけです。
+
+## こんな人向け
+
+- このブログに新しい記事を投稿したい
+- フロントマターの書き方やMarkdown記法を確認したい
+- 記事の公開・デプロイの流れを理解したい
 
 ## 記事の作成手順
 

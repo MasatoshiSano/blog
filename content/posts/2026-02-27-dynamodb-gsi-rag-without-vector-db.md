@@ -1,5 +1,5 @@
 ---
-title: "DynamoDB GSIでRAGナレッジ検索を実装する — ベクターDB無しで始めるAI知識活用"
+title: "ベクターDB無しでRAGを最短実装する — DynamoDB GSIだけで始めるAI知識活用"
 emoji: "🧠"
 type: "tech"
 topics: ["DynamoDB", "RAG", "AWS", "Bedrock", "TypeScript", "Search"]
@@ -20,6 +20,12 @@ AIチャットに「過去の事例を参照して回答する」RAG（Retrieval
 - DynamoDB GSI を使った過去データ取得パターン
 - 取得データを Bedrock Claude のシステムプロンプトに注入する設計
 - Lambda でのメッセージ取得と RAG クエリの並列実行による低レイテンシ化
+
+## こんな人向け
+
+- RAGを導入したいが、OpenSearchやPineconeなどベクターDBの運用コストが気になる
+- DynamoDBだけで「まず動くRAG」を最短で立ち上げたい
+- Amplify Gen 2 + Bedrock環境で過去データをAIに参照させたい
 
 ## 前提条件
 

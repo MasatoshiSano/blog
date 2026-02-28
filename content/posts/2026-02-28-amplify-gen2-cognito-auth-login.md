@@ -1,5 +1,5 @@
 ---
-title: "Amplify Gen 2 + Cognitoでログイン認証を実装する — defineAuthからJWT検証まで"
+title: "Amplify Gen 2で認証を最短構築する — defineAuth 1行からLambda JWT検証まで"
 emoji: "🔐"
 type: "tech"
 topics: ["Cognito", "Amplify", "React", "TypeScript", "AWS", "Auth"]
@@ -22,6 +22,13 @@ Webアプリにログイン認証を追加する場合、AWSならCognitoが第�
 - 2ステップ登録フロー（サインアップ → メール確認 → 自動ログイン）
 - React RouterのOutletパターンによるProtectedRoute
 - **Lambda Function URLでの自前JWT検証**（外部ライブラリ不要、Web Crypto API使用）
+
+## こんな人向け
+
+- Amplify Gen 2でCognito認証を導入したいが、従来のAmplify CLIとの違いがわからない
+- React + Cognitoのログイン・登録・パスワードリセットを一気通貫で実装したい
+- Lambda Function URLでJWTトークンを自前で検証する方法を探している
+- `aws-jwt-verify`を使わずに軽量なJWT検証を実装したい
 
 ## 前提条件
 

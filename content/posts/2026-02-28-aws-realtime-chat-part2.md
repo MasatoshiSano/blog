@@ -1,5 +1,5 @@
 ---
-title: "API Gateway WebSocket + DynamoDB でリアルタイムチャットを作る（第2回：接続管理・メッセージ配信編）"
+title: "サーバーレスでリアルタイムチャットを構築する（第2回：接続管理・メッセージ配信編）— Lambda + JWT認証"
 emoji: "🔌"
 type: "tech"
 topics: ["AWS", "Lambda", "WebSocket", "DynamoDB", "Chat"]
@@ -7,7 +7,7 @@ published: true
 category: "HowTo"
 date: "2026-02-28"
 description: "WebSocket の $connect/$disconnect Lambda で Cognito JWT 認証と接続管理を実装し、sendMessage でチャットルーム全員にメッセージをブロードキャストする方法を解説します。"
-series: "AWS リアルタイムチャット構築"
+series: "サーバーレスでリアルタイムチャット構築"
 seriesOrder: 2
 coverImage: "/images/posts/aws-realtime-chat-part2-cover.jpg"
 ---
@@ -28,6 +28,12 @@ coverImage: "/images/posts/aws-realtime-chat-part2-cover.jpg"
 - **$disconnect**: 切断時に接続レコードを削除
 - **sendMessage**: メッセージを保存し、チャットルームの全参加者にブロードキャスト
 - **ゾンビ接続の自動クリーンアップ**: GoneException の検出と対処
+
+## こんな人向け
+
+- WebSocket APIの `$connect`/`$disconnect` でJWT認証を実装したい
+- チャットルーム全員へのメッセージブロードキャストの実装方法を知りたい
+- WebSocketのゾンビ接続（GoneException）への対処法を探している
 
 ## 前提条件
 

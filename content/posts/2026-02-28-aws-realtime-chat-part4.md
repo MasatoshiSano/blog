@@ -1,5 +1,5 @@
 ---
-title: "API Gateway WebSocket + DynamoDB でリアルタイムチャットを作る（第4回：React フロントエンド編）"
+title: "サーバーレスでリアルタイムチャットを構築する（第4回：Reactフロントエンド編）— WebSocket再接続・楽観的更新"
 emoji: "🎨"
 type: "tech"
 topics: ["React", "WebSocket", "Zustand", "TypeScript", "Chat"]
@@ -7,7 +7,7 @@ published: true
 category: "HowTo"
 date: "2026-02-28"
 description: "WebSocketService の再接続・ハートビート、Zustand による状態管理、楽観的更新と重複排除、メッセージバブル・未読バッジなどチャットUIコンポーネントを実装してシリーズを完結させます。"
-series: "AWS リアルタイムチャット構築"
+series: "サーバーレスでリアルタイムチャット構築"
 seriesOrder: 4
 coverImage: "/images/posts/aws-realtime-chat-part4-cover.jpg"
 ---
@@ -28,6 +28,13 @@ coverImage: "/images/posts/aws-realtime-chat-part4-cover.jpg"
 - **Zustand Chat Store**: メッセージの重複排除と既読管理
 - **楽観的更新**: 送信ボタンを押した瞬間にメッセージを表示
 - **チャットUI**: ルーム一覧（未読バッジ）、メッセージバブル（既読表示）、入力フォーム
+
+## こんな人向け
+
+- WebSocket接続の再接続・ハートビートをReactで実装する方法を知りたい
+- Zustandでチャットの状態管理（メッセージ重複排除・既読）を設計したい
+- 楽観的更新でチャットUIの応答性を改善したい
+- メッセージバブル・未読バッジなどチャットUIコンポーネントの実装例を探している
 
 ## WebSocketService
 
@@ -787,4 +794,4 @@ useEffect(() => {
 
 ---
 
-これで「AWS リアルタイムチャット構築」シリーズは完結です。第1回から順に読むことで、インフラ設計からフロントエンド実装まで一貫した理解が得られます。
+これで「サーバーレスでリアルタイムチャット構築」シリーズは完結です。第1回から順に読むことで、インフラ設計からフロントエンド実装まで一貫した理解が得られます。
