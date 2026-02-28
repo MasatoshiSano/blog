@@ -16,7 +16,7 @@ coverImage: "/images/posts/aws-realtime-chat-part3-cover.jpg"
 > 1. [第1回: インフラ設計編](/posts/aws-realtime-chat-part1)
 > 2. [第2回: 接続管理・メッセージ配信編](/posts/aws-realtime-chat-part2)
 > 3. [第3回: チャットルーム・既読管理編](/posts/aws-realtime-chat-part3) ← 今ここ
-> 4. 第4回: React フロントエンド編
+> 4. [第4回: React フロントエンド編](/posts/aws-realtime-chat-part4)
 
 ## 概要
 

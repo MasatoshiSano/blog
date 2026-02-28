@@ -15,8 +15,8 @@ coverImage: "/images/posts/aws-realtime-chat-part2-cover.jpg"
 > **このシリーズ: 全4回**
 > 1. [第1回: インフラ設計編](/posts/aws-realtime-chat-part1)
 > 2. [第2回: 接続管理・メッセージ配信編](/posts/aws-realtime-chat-part2) ← 今ここ
-> 3. 第3回: チャットルーム・既読管理編
-> 4. 第4回: React フロントエンド編
+> 3. [第3回: チャットルーム・既読管理編](/posts/aws-realtime-chat-part3)
+> 4. [第4回: React フロントエンド編](/posts/aws-realtime-chat-part4)
 
 ## 概要
 
@@ -717,4 +717,4 @@ DynamoDB のソートキー `MESSAGE#{timestamp}#{messageId}` はクライアン
 
 ---
 
-次回: 第3回: チャットルーム・既読管理編 では、チャットルームの作成・参加者管理と、既読・未読の実装を解説します。
+次回: [第3回: チャットルーム・既読管理編](/posts/aws-realtime-chat-part3) では、チャットルームの作成・参加者管理と、既読・未読の実装を解説します。
