@@ -98,9 +98,12 @@ export async function publishPost(payload: {
   });
 }
 
-/** 記事一覧を取得する */
+/** 記事一覧を取得する。API は { posts: [...] } 形式で返すため unwrap する。 */
 export async function listPosts(): Promise<PostListItem[]> {
-  return request<PostListItem[]>("/admin/posts", { method: "GET" });
+  const res = await request<{ posts: PostListItem[] }>("/admin/posts", {
+    method: "GET",
+  });
+  return res.posts ?? [];
 }
 
 /** 記事を削除し、再ビルドを発火する */
