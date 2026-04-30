@@ -1,7 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
+import { icons, FileText, type LucideIcon } from "lucide-react";
 import type { Post } from "@/types/post";
 import { getUnsplashImageForSlug } from "@/lib/unsplash";
+
+function kebabToPascal(str: string): string {
+  return str.replace(/(^\w|-\w)/g, (m) => m.replace("-", "").toUpperCase());
+}
+
+function getPostIcon(post: Post): LucideIcon {
+  if (post.icon) {
+    const name = kebabToPascal(post.icon);
+    return (name in icons ? icons[name as keyof typeof icons] : FileText) as LucideIcon;
+  }
+  return FileText;
+}
 
 interface HeroSectionProps {
   post: Post;
@@ -10,6 +23,7 @@ interface HeroSectionProps {
 export function HeroSection({ post }: HeroSectionProps) {
   const unsplashImage = !post.coverImage ? getUnsplashImageForSlug(post.slug) : null;
   const imageSrc = post.coverImage ?? unsplashImage?.url;
+  const Icon = getPostIcon(post);
 
   return (
     <section className="mb-10 animate-fade-in-up">
@@ -55,7 +69,7 @@ export function HeroSection({ post }: HeroSectionProps) {
               <span className="rounded-full bg-primary-500 px-3 py-0.5 text-xs font-semibold text-white">Featured</span>
               <span className="rounded-full bg-primary-50 px-3 py-0.5 text-xs font-medium text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">{post.category}</span>
             </div>
-            <div className="mb-3 text-4xl">{post.emoji}</div>
+            <div className="mb-3"><Icon size={48} className="text-gray-400 dark:text-gray-500" /></div>
             <h2 className="mb-2 text-2xl font-bold text-gray-900 group-hover:text-primary-600 md:text-3xl dark:text-white dark:group-hover:text-primary-400">{post.title}</h2>
             {post.description && (
               <p className="mb-3 text-gray-600 dark:text-gray-400">{post.description}</p>

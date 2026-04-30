@@ -38,3 +38,16 @@ next-env.d.ts
 # infra
 infra/node_modules/
 infra/cdk.out/
+
+# api
+api/node_modules/
+api/dist/
+
+# mcp-blog
+mcp-blog/node_modules/
+mcp-blog/dist/
+
+# omc ephemeral state at any nesting (plans/handoffs are committed)
+**/.omc/state/
+**/.omc/sessions/
+**/.omc/project-memory.json

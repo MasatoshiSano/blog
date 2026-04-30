@@ -2,9 +2,22 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { icons, FileText, type LucideIcon } from "lucide-react";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import type { Post } from "@/types/post";
 import { getUnsplashImageForSlug } from "@/lib/unsplash";
+
+function kebabToPascal(str: string): string {
+  return str.replace(/(^\w|-\w)/g, (m) => m.replace("-", "").toUpperCase());
+}
+
+function getPostIcon(post: Post): LucideIcon {
+  if (post.icon) {
+    const name = kebabToPascal(post.icon);
+    return (name in icons ? icons[name as keyof typeof icons] : FileText) as LucideIcon;
+  }
+  return FileText;
+}
 
 interface ArticleDetailProps {
   post: Post;
@@ -14,6 +27,7 @@ interface ArticleDetailProps {
 export function ArticleDetail({ post, htmlContent }: ArticleDetailProps) {
   const unsplashImage = !post.coverImage ? getUnsplashImageForSlug(post.slug) : null;
   const imageSrc = post.coverImage ?? unsplashImage?.url;
+  const Icon = getPostIcon(post);
 
   return (
     <article className="animate-fade-in-up">
@@ -35,7 +49,7 @@ export function ArticleDetail({ post, htmlContent }: ArticleDetailProps) {
         </div>
       )}
       <header className="mb-8">
-        {!imageSrc && <div className="mb-4 text-4xl">{post.emoji}</div>}
+        {!imageSrc && <div className="mb-4"><Icon size={48} className="text-gray-400 dark:text-gray-500" /></div>}
         <h1 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">{post.title}</h1>
         <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
           <Link href={`/categories/${post.category}`} className="rounded-full bg-primary-50 px-3 py-0.5 text-xs font-medium text-primary-700 transition-colors hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-300 dark:hover:bg-primary-900/50">

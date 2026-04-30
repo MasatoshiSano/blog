@@ -1,7 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
+import { icons, FileText, type LucideIcon } from "lucide-react";
 import type { Post } from "@/types/post";
 import { getUnsplashImageForSlug } from "@/lib/unsplash";
+
+function kebabToPascal(str: string): string {
+  return str.replace(/(^\w|-\w)/g, (m) => m.replace("-", "").toUpperCase());
+}
+
+function getPostIcon(post: Post): LucideIcon {
+  if (post.icon) {
+    const name = kebabToPascal(post.icon);
+    return (name in icons ? icons[name as keyof typeof icons] : FileText) as LucideIcon;
+  }
+  return FileText;
+}
 
 interface ArticleCardProps {
   post: Post;
@@ -9,6 +22,7 @@ interface ArticleCardProps {
 
 export function ArticleCard({ post }: ArticleCardProps) {
   const unsplashImage = !post.coverImage ? getUnsplashImageForSlug(post.slug) : null;
+  const Icon = getPostIcon(post);
 
   return (
     <article className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900">
@@ -25,7 +39,7 @@ export function ArticleCard({ post }: ArticleCardProps) {
             </span>
           </div>
         ) : (
-          <div className="flex h-32 items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 text-4xl dark:from-gray-800 dark:to-gray-900">{post.emoji}</div>
+          <div className="flex h-32 items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900"><Icon size={48} className="text-gray-400 dark:text-gray-500" /></div>
         )}
         <div className="p-5">
           <div className="mb-3 flex flex-wrap items-center gap-2 text-sm">

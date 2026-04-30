@@ -1,6 +1,8 @@
 export interface PostFrontmatter {
   title: string;
-  emoji: string;
+  /** @deprecated emoji フィールドは icon (Lucide アイコン名) に移行中 */
+  emoji?: string;
+  icon?: string;
   type: "tech" | "idea";
   topics: string[];
   published: boolean;
