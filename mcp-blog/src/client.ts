@@ -126,6 +126,14 @@ export async function listPosts(
   return res.posts ?? [];
 }
 
+export async function getPost(slug: string): Promise<{
+  slug: string;
+  markdown: string;
+  frontmatter: Record<string, unknown>;
+}> {
+  return request("GET", `/admin/posts/${encodeURIComponent(slug)}`);
+}
+
 export async function deletePost(slug: string): Promise<DeleteResponse> {
   return request<DeleteResponse>("DELETE", `/admin/posts/${encodeURIComponent(slug)}`);
 }

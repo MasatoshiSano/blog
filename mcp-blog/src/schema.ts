@@ -74,7 +74,13 @@ export const DeleteToolInputSchema = z.object({
   slug: SlugSchema.describe("Slug of the post to delete"),
 });
 
+// blog_get_post ツール入力
+export const GetToolInputSchema = z.object({
+  slug: SlugSchema.describe("Slug of the post to fetch"),
+});
+
 export type PreviewToolInput = z.infer<typeof PreviewToolInputSchema>;
 export type PublishToolInput = z.infer<typeof PublishToolInputSchema>;
 export type ListToolInput = z.infer<typeof ListToolInputSchema>;
 export type DeleteToolInput = z.infer<typeof DeleteToolInputSchema>;
+export type GetToolInput = z.infer<typeof GetToolInputSchema>;

@@ -7,6 +7,7 @@ import {
   handlePostsPreview,
   handlePostsPublish,
   handlePostsList,
+  handlePostsGet,
   handlePostsDelete,
 } from "./routes/posts.js";
 import { handleImagesPresign } from "./routes/images.js";
@@ -84,6 +85,14 @@ export async function handler(
     }
     if (normalizedPath === "/admin/posts/publish" && method === "POST") {
       return await handlePostsPublish(event, ctx);
+    }
+    if (
+      method === "GET" &&
+      /^\/admin\/posts\/[^/]+$/.test(normalizedPath) &&
+      !normalizedPath.endsWith("/preview") &&
+      !normalizedPath.endsWith("/publish")
+    ) {
+      return await handlePostsGet(event, ctx);
     }
     if (
       method === "DELETE" &&

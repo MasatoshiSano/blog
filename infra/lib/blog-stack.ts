@@ -164,6 +164,7 @@ export class BlogStack extends cdk.Stack {
     postsPublishResource.addMethod("POST", lambdaIntegration);
 
     const postsSlugResource = postsResource.addResource("{slug}");
+    postsSlugResource.addMethod("GET", lambdaIntegration);
     postsSlugResource.addMethod("DELETE", lambdaIntegration);
 
     const imagesResource = adminResource.addResource("images");

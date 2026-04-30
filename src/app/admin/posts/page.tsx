@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { FileText, Trash2, Plus, RefreshCw, CheckCircle, Clock } from "lucide-react";
+import { FileText, Trash2, Pencil, Plus, RefreshCw, CheckCircle, Clock } from "lucide-react";
 import { listPosts, deletePost, type PostListItem } from "@/lib/admin-api";
 
 export default function PostsPage() {
@@ -145,18 +145,27 @@ export default function PostsPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <button
-                      onClick={() => handleDelete(post.slug, post.title)}
-                      disabled={deletingSlug === post.slug}
-                      className="rounded-lg p-1.5 text-gray-400 opacity-0 transition hover:bg-red-50 hover:text-red-500 group-hover:opacity-100 disabled:opacity-50 dark:hover:bg-red-900/20 dark:hover:text-red-400"
-                      aria-label={`「${post.title}」を削除`}
-                    >
-                      {deletingSlug === post.slug ? (
-                        <span className="block h-4 w-4 animate-spin rounded-full border-2 border-red-400 border-t-transparent" />
-                      ) : (
-                        <Trash2 size={14} />
-                      )}
-                    </button>
+                    <div className="flex items-center justify-end gap-1">
+                      <Link
+                        href={`/admin/edit?slug=${encodeURIComponent(post.slug)}`}
+                        className="rounded-lg p-1.5 text-gray-400 opacity-0 transition hover:bg-primary-50 hover:text-primary-600 group-hover:opacity-100 dark:hover:bg-primary-900/20 dark:hover:text-primary-400"
+                        aria-label={`「${post.title}」を編集`}
+                      >
+                        <Pencil size={14} />
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(post.slug, post.title)}
+                        disabled={deletingSlug === post.slug}
+                        className="rounded-lg p-1.5 text-gray-400 opacity-0 transition hover:bg-red-50 hover:text-red-500 group-hover:opacity-100 disabled:opacity-50 dark:hover:bg-red-900/20 dark:hover:text-red-400"
+                        aria-label={`「${post.title}」を削除`}
+                      >
+                        {deletingSlug === post.slug ? (
+                          <span className="block h-4 w-4 animate-spin rounded-full border-2 border-red-400 border-t-transparent" />
+                        ) : (
+                          <Trash2 size={14} />
+                        )}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

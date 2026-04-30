@@ -116,6 +116,30 @@ export async function handlePostsList(
   return json({ posts: items.filter((i) => i !== null) });
 }
 
+export async function handlePostsGet(
+  event: APIGatewayProxyEvent,
+  ctx: RouteContext
+): Promise<APIGatewayProxyResult> {
+  const slugParam = event.pathParameters?.slug;
+  if (!slugParam) {
+    return error(400, "slug path parameter required");
+  }
+  const validation = SlugSchema.safeParse(slugParam);
+  if (!validation.success) {
+    return error(400, "invalid slug");
+  }
+  const slug = sanitizeSlug(validation.data);
+  if (slug !== validation.data) {
+    return error(400, "invalid slug");
+  }
+  const content = await getMarkdown(ctx.contentBucket, slug);
+  if (!content) {
+    return error(404, "not found");
+  }
+  const parsed = matter(content);
+  return json({ slug, markdown: parsed.content, frontmatter: parsed.data });
+}
+
 export async function handlePostsDelete(
   event: APIGatewayProxyEvent,
   ctx: RouteContext

@@ -4,16 +4,19 @@ import {
   PublishToolInputSchema,
   ListToolInputSchema,
   DeleteToolInputSchema,
+  GetToolInputSchema,
   type PreviewToolInput,
   type PublishToolInput,
   type ListToolInput,
   type DeleteToolInput,
+  type GetToolInput,
 } from "./schema.js";
 import {
   previewPost,
   publishPost,
   listPosts,
   deletePost,
+  getPost,
   ApiError,
 } from "./client.js";
 
@@ -75,6 +78,17 @@ export async function handleListPosts(rawInput: unknown): Promise<string> {
   }
 }
 
+// blog_get_post: 指定スラグの記事の Markdown と frontmatter を取得 (編集用)
+export async function handleGetPost(rawInput: unknown): Promise<string> {
+  const input = GetToolInputSchema.parse(rawInput) as GetToolInput;
+  try {
+    const result = await getPost(input.slug);
+    return JSON.stringify(result, null, 2);
+  } catch (err) {
+    throw new Error(formatError(err));
+  }
+}
+
 // blog_delete_post: 指定スラグの記事を削除してビルド発火
 export async function handleDeletePost(rawInput: unknown): Promise<string> {
   const input = DeleteToolInputSchema.parse(rawInput) as DeleteToolInput;
@@ -104,6 +118,12 @@ export const toolDefinitions = [
     name: "blog_list_posts",
     description: "ブログ記事の一覧を取得する。published フィルタと件数上限を指定可能。",
     inputSchema: zodToJsonSchema(ListToolInputSchema),
+  },
+  {
+    name: "blog_get_post",
+    description:
+      "指定したスラグの記事を S3 から読み出し、Markdown 本体と frontmatter を返す。編集ワークフロー (取得→修正→blog_publish_post で上書き) で使う。",
+    inputSchema: zodToJsonSchema(GetToolInputSchema),
   },
   {
     name: "blog_delete_post",

@@ -239,6 +239,78 @@ describe("posts publish (with valid API key)", () => {
   });
 });
 
+describe("posts get (single)", () => {
+  it("returns markdown + frontmatter for a valid slug", async () => {
+    s3Mock
+      .on(GetObjectCommand, { Bucket: "content-bucket", Key: "posts/foo.md" })
+      .resolves({
+        Body: {
+          transformToString: async () =>
+            "---\ntitle: Foo\ndate: 2026-04-30\ncategory: Test\npublished: true\n---\nbody text",
+        } as never,
+      });
+
+    const res = await handler({
+      httpMethod: "GET",
+      path: "/admin/posts/foo",
+      headers: { Authorization: `Bearer ${API_KEY}` },
+      body: null,
+      isBase64Encoded: false,
+      pathParameters: { slug: "foo" },
+    } as unknown as APIGatewayProxyEvent);
+
+    expect(res.statusCode).toBe(200);
+    const body = JSON.parse(res.body);
+    expect(body.slug).toBe("foo");
+    expect(body.markdown).toContain("body text");
+    expect(body.frontmatter.title).toBe("Foo");
+    expect(body.frontmatter.published).toBe(true);
+  });
+
+  it("returns 404 for missing slug", async () => {
+    const noSuchKey = new Error("NoSuchKey");
+    noSuchKey.name = "NoSuchKey";
+    s3Mock
+      .on(GetObjectCommand, { Bucket: "content-bucket", Key: "posts/missing.md" })
+      .rejects(noSuchKey);
+
+    const res = await handler({
+      httpMethod: "GET",
+      path: "/admin/posts/missing",
+      headers: { Authorization: `Bearer ${API_KEY}` },
+      body: null,
+      isBase64Encoded: false,
+      pathParameters: { slug: "missing" },
+    } as unknown as APIGatewayProxyEvent);
+
+    expect(res.statusCode).toBe(404);
+  });
+
+  it("rejects path traversal slug", async () => {
+    const res = await handler({
+      httpMethod: "GET",
+      path: "/admin/posts/..",
+      headers: { Authorization: `Bearer ${API_KEY}` },
+      body: null,
+      isBase64Encoded: false,
+      pathParameters: { slug: ".." },
+    } as unknown as APIGatewayProxyEvent);
+    expect(res.statusCode).toBe(400);
+  });
+
+  it("rejects unauthenticated GET", async () => {
+    const res = await handler({
+      httpMethod: "GET",
+      path: "/admin/posts/foo",
+      headers: {},
+      body: null,
+      isBase64Encoded: false,
+      pathParameters: { slug: "foo" },
+    } as unknown as APIGatewayProxyEvent);
+    expect(res.statusCode).toBe(401);
+  });
+});
+
 describe("posts delete", () => {
   it("rejects bad slug", async () => {
     const res = await handler({
