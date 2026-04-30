@@ -1,0 +1,32 @@
+## Handoff: team-plan → team-exec
+
+- **Decided**: Stage 1 only of the blog upload system plan. Three parallel workstreams.
+  - W1: Phase 0 admin CLI scripts
+  - W2: Phase 1 CDK infrastructure code (no deploy)
+  - W3: Phase 3 type & component migration to Lucide + Phase 3b migration script
+- **Rejected**:
+  - Full-plan single team run (deferred to subsequent stages — too large)
+  - argon2 for password hashing (replaced with Node built-in `crypto.scrypt` to avoid native module compile risk on WSL2)
+  - Separate worker for migration script (folded into W3 to avoid `package.json` conflicts and because it shares the new `icon` schema)
+- **Risks**:
+  - Lead pre-installed deps (`lucide-react`, `@aws-sdk/client-ssm`, `@anthropic-ai/sdk`); workers must NOT touch root `package.json`. Verify `npm install` completed (background task) before running typecheck.
+  - W2's Lambda needs `Code.fromInline` placeholder noting Phase 2 replacement, since `api/` doesn't exist yet.
+  - lucide-react@0.469 dynamic icon API: prefer `import { icons } from 'lucide-react'` lookup table, or per-icon imports with a fallback to `FileText`. Avoid relying on `DynamicIcon` if not available in this version.
+- **Files of interest** (absolute):
+  - Plan: `/home/sano/projects/blog/.omc/plans/blog-upload-system-plan.md`
+  - Existing types: `/home/sano/projects/blog/src/types/post.ts`
+  - Existing components: `/home/sano/projects/blog/src/components/articles/{ArticleCard,HeroSection,ArticleDetail}.tsx`
+  - Existing CDK: `/home/sano/projects/blog/infra/lib/blog-stack.ts`
+  - Posts (read-only for this stage): `/home/sano/projects/blog/content/posts/*.md`
+- **Remaining (deferred to later stages)**:
+  - Phase 2: `api/` Lambda implementation (depends on W2 outputs)
+  - Phase 4: `sano/mcp-blog` separate GitHub repository
+  - Phase 5: `.github/workflows/deploy.yml` S3 sync + repository_dispatch trigger
+  - Phase 6: `CLAUDE.md` documentation update
+  - Manual: `cd infra && npx cdk diff` then `cdk deploy` after human review
+  - Manual: actual emoji→icon migration of 9 posts (W3 only creates the script)
+- **Verification gate before completion**:
+  - `npm run typecheck` passes
+  - `npm test` passes (existing tests unchanged)
+  - `npm run lint` no warnings
+  - `cd infra && npm run build` passes

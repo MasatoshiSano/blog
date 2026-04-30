@@ -1,3 +1,4 @@
+import * as path from "node:path";
 import * as cdk from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
@@ -64,23 +65,14 @@ export class BlogStack extends cdk.Stack {
     // などのオペレーション CLI から登録する想定 (CDK では作らない)。
     const parameterStorePrefix = "/blog/api";
 
-    // API Lambda (Phase 2 で本実装に差し替える placeholder)
-    // TODO Phase 2: Code.fromInline を Code.fromAsset("../api/dist") に置き換え、
-    // handler を "index.handler" のままにする (api/src/index.ts のビルド済み JS)。
+    // API Lambda — api/ パッケージの esbuild 出力 (api/dist/index.js) を参照する。
+    // デプロイ前に必ず `cd api && npm run build` を実行して dist を更新すること。
     const apiHandler = new lambda.Function(this, "ApiHandler", {
       runtime: lambda.Runtime.NODEJS_20_X,
       handler: "index.handler",
       timeout: cdk.Duration.seconds(30),
       memorySize: 512,
-      code: lambda.Code.fromInline(
-        // TODO Phase 2: 実装は api/ パッケージに移動。ここでは 501 を返す placeholder。
-        `exports.handler = async () => ({
-  statusCode: 501,
-  headers: { "content-type": "application/json" },
-  body: JSON.stringify({ error: "Not Implemented", phase: "Phase 2 placeholder" }),
-});
-`
-      ),
+      code: lambda.Code.fromAsset(path.join(__dirname, "..", "..", "api", "dist")),
       environment: {
         CONTENT_BUCKET: contentBucket.bucketName,
         MEDIA_BUCKET: mediaBucket.bucketName,

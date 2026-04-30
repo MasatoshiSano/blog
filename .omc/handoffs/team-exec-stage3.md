@@ -1,0 +1,36 @@
+## Handoff: Stage 2 complete → Stage 3
+
+- **Stage 2 outcome (already in working tree)**:
+  - `api/` Lambda package: 21 source + 8 test files, 56 tests pass, 226.8KB esbuild dist
+  - `.github/workflows/deploy.yml`: `repository_dispatch` trigger + `s3 sync` step from contentBucket / mediaBucket before build
+  - Lead-applied fixes: scrypt verify in login.ts (was argon2), HMAC-based API key in `scripts/rotate-api-key.mjs` (was plain), new `scripts/init-jwt-secret.mjs`, scrypt `maxmem` to 128 MiB in 3 places
+  - SSM contract finalized (see `api/README.md` "SSM Parameter Store layout")
+- **Stage 3 scope (this run)**:
+  - **Phase 3 admin UI** — Next.js client-component pages under `src/app/admin/*` + `src/lib/admin-api.ts` client helper
+  - **Phase 4 MCP server** — `mcp-blog/` subdirectory in this repo (designed to be later split into `sano/mcp-blog` GitHub repo for `npx -y github:` distribution)
+- **Excluded from Stage 3 (lead/manual)**:
+  - CDK Lambda swap (`Code.fromInline` → `Code.fromAsset("../api/dist")`)
+  - `cdk deploy`
+  - SSM secret provisioning
+  - Migration `--apply`
+  - Splitting `mcp-blog/` to separate GitHub repo (post-Stage 3 git ops)
+  - **Phase 6 docs (CLAUDE.md update) — handled by lead after both workers finish**
+- **Decided**:
+  - **Static export compatibility** — `output: "export"` is unchanged. All admin pages must be Client Components (`"use client"` directive). No Server Components, no Server Actions, no `force-dynamic`. Page builds as static HTML; data fetching happens entirely on the client at runtime.
+  - **Auth flow** — Login page POSTs `{password}` to `/api/admin/login`, receives Set-Cookie (`__Host-admin-session`). Subsequent admin pages call `/api/admin/*` with `credentials: "include"`. If response is 401, redirect to `/admin/login`.
+  - **Upload UX** — Two-stage: 1) select md file + optional image → 2) call `/api/admin/posts/preview` → 3) display AI-corrected frontmatter + body diff in editable form → 4) call `/api/admin/images/upload-url` then PUT image to S3 (if image was provided) → 5) call `/api/admin/posts/publish` with final payload. Use simple form components, no extra UI library beyond Tailwind + Lucide.
+  - **MCP server** — TypeScript using `@modelcontextprotocol/sdk` (latest stable). stdio transport. Tools: `blog_preview_post`, `blog_publish_post`, `blog_list_posts`, `blog_delete_post`. Reads `BLOG_API_ENDPOINT` and `BLOG_API_KEY` from env. Bin entry for `npx`.
+- **Risks**:
+  - Static export + dynamic auth: localStorage/cookie-only state. Avoid SSR-only patterns.
+  - File upload size: md max 5MB matches API contract. Image: enforce client-side check (10MB) before requesting presign URL.
+  - MCP tool argument schemas must mirror `api/src/schema.ts`.
+  - `mcp-blog/` deps must NOT pollute root `package.json` — keep its own `package.json`.
+- **Files of interest**:
+  - Plan: `/home/sano/projects/blog/.omc/plans/blog-upload-system-plan.md` (Phase 3 admin UI + Phase 4 sections)
+  - API contract: `/home/sano/projects/blog/api/README.md` (routes table)
+  - API schemas: `/home/sano/projects/blog/api/src/schema.ts`
+  - Existing components for style reference: `/home/sano/projects/blog/src/components/`
+  - Existing global styles: `/home/sano/projects/blog/src/app/globals.css`
+- **Verification gates**:
+  - Worker 1: `cd /home/sano/projects/blog && npm run typecheck` + `npm run build` (next build with static export) succeed. Pre-existing `npm test` 4 failures and `next lint` interactive prompt issue are NOT regressions to fix here.
+  - Worker 2: `cd /home/sano/projects/blog/mcp-blog && npm install && npm run build` succeeds (esbuild or tsc), `node --check dist/index.js` exits 0. `mcp-blog/` package.json deps separate from root.

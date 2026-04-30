@@ -1,0 +1,39 @@
+## Handoff: Stage 1 complete → Stage 2
+
+- **Stage 1 outcome (already shipped to working tree)**:
+  - Phase 0: `scripts/set-admin-password.mjs`, `scripts/rotate-api-key.mjs`
+  - Phase 1: CDK extension in `infra/` — contentBucket, Lambda placeholder (Code.fromInline 501), API Gateway REST (6 endpoints), CloudFront `/api/*` behavior with `ALL_VIEWER_EXCEPT_HOST_HEADER` (intentional override of plan), IAM grants, Outputs (ContentBucketName, ApiEndpoint)
+  - Phase 3: `PostFrontmatter.emoji` → optional + new `icon?: string`; ArticleCard/HeroSection/ArticleDetail use Lucide via kebab→PascalCase lookup with FileText fallback; `scripts/migrate-emoji-to-icon.mjs` (dry-run by default)
+  - Tests: 40 pass / 4 pre-existing failures (record references the deleted `how-to-post-blog` post — not a Stage 1 regression)
+  - Lint: pre-existing `next lint` interactive prompt block — unaddressed
+- **Stage 2 scope (this run)**:
+  - **Phase 2** — full `api/` package implementation (handlers, auth, AI, Unsplash, GitHub dispatch, tests)
+  - **Phase 5** — `.github/workflows/deploy.yml` updates: S3 sync of contentBucket and mediaBucket BEFORE build, `repository_dispatch` trigger added
+- **Excluded from Stage 2 (deferred)**:
+  - Phase 3 admin UI (`/admin/login`, `/admin/upload`, `/admin/posts`)
+  - Phase 4 MCP server (`sano/mcp-blog` separate repo)
+  - Phase 6 documentation update (CLAUDE.md)
+  - Manual gates: `cdk deploy`, `set-admin-password.mjs --apply` execution, `migrate-emoji-to-icon.mjs --apply`, swapping CDK Lambda from `Code.fromInline` to `Code.fromAsset('api/dist')` (lead handles after Worker 1 finishes)
+- **Decided**:
+  - **AI provider** — Anthropic SDK with prompt caching enabled. Model: `claude-haiku-4-5-20251001`. System prompt cached as `cache_control: ephemeral` to amortize across requests.
+  - **JWT** — HS256, 24h exp, HttpOnly Cookie. Library: `jose` (ESM-friendly, no native deps).
+  - **Bundling** — `esbuild` with `--bundle --platform=node --target=node20 --format=cjs` to produce `api/dist/index.js`. CDK Lambda updated by lead after `npm run build` in api/.
+  - **Schema validation** — `zod` for PostFrontmatter and request payloads.
+  - **Testing** — vitest, AWS SDK mocks via `aws-sdk-client-mock`, Anthropic via msw or simple stub.
+- **Risks**:
+  - api/ package adds many transitive deps; bundler must tree-shake. Confirm `api/dist/index.js` size < 5MB after esbuild.
+  - GitHub dispatch token must be scoped to repository_dispatch only — note in script comment but actual provisioning is manual (PAT set in Parameter Store).
+  - JWT secret rotation strategy not in scope but note in comments.
+  - Path traversal: `slug` validation must use `path.basename` similar to `src/lib/posts.ts:29`.
+- **Files of interest**:
+  - Plan: `/home/sano/projects/blog/.omc/plans/blog-upload-system-plan.md` (Phase 2 + Phase 5 sections)
+  - CDK Lambda location: `/home/sano/projects/blog/infra/lib/blog-stack.ts` (search for `// TODO Phase 2`)
+  - Existing GHA: `/home/sano/projects/blog/.github/workflows/deploy.yml`
+  - Existing types: `/home/sano/projects/blog/src/types/post.ts` (mirror PostFrontmatter shape in api/)
+  - Existing Unsplash logic: `/home/sano/projects/blog/src/lib/unsplash.ts` (port djb2 hash to api/)
+- **Verification gate before completion**:
+  - `cd /home/sano/projects/blog/api && npm run build` succeeds (esbuild produces dist/index.js)
+  - `cd /home/sano/projects/blog/api && npm test` passes
+  - `cd /home/sano/projects/blog/api && npm run typecheck` passes (or equivalent if integrated into build)
+  - `.github/workflows/deploy.yml` is valid YAML (`yq`/`yamllint` if available, otherwise manual inspection)
+  - Lead post-step: update CDK Lambda to `Code.fromAsset('api/dist')`, run `cd infra && npm run build`
