@@ -51,3 +51,7 @@ mcp-blog/dist/
 **/.omc/state/
 **/.omc/sessions/
 **/.omc/project-memory.json
+**/.omc/*.tmp.*
+
+# user-local notes / temporary credentials
+/api.txt
