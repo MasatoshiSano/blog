@@ -1,7 +1,12 @@
-import Anthropic from "@anthropic-ai/sdk";
+import AnthropicBedrock from "@anthropic-ai/bedrock-sdk";
 import { LUCIDE_ICON_CANDIDATES, SYSTEM_PROMPT } from "./prompts.js";
 
-const MODEL = "claude-haiku-4-5-20251001";
+// Bedrock の Claude Haiku 4.5 モデル ID。デフォルトは JP cross-region inference
+// profile (Tokyo + Osaka を跨いで routing、データは Japan 域内のみ)。
+// 環境変数 BEDROCK_MODEL_ID で override 可能。
+const MODEL_ID =
+  process.env.BEDROCK_MODEL_ID ??
+  "jp.anthropic.claude-haiku-4-5-20251001-v1:0";
 
 export interface AiPreviewResult {
   frontmatter: {
@@ -19,13 +24,12 @@ export interface AiPreviewResult {
   diff: string[];
 }
 
-let _factory: ((apiKey: string) => Anthropic) = (apiKey) =>
-  new Anthropic({ apiKey });
+let _factory: () => AnthropicBedrock = () => new AnthropicBedrock();
 
 export function __setAnthropicFactoryForTest(
-  factory: ((apiKey: string) => Anthropic) | null
+  factory: (() => AnthropicBedrock) | null
 ): void {
-  _factory = factory ?? ((apiKey) => new Anthropic({ apiKey }));
+  _factory = factory ?? (() => new AnthropicBedrock());
 }
 
 function clampIcon(icon: string): string {
@@ -40,12 +44,11 @@ function extractJson(text: string): unknown {
 }
 
 export async function correctPostWithAi(
-  markdown: string,
-  apiKey: string
+  markdown: string
 ): Promise<AiPreviewResult> {
-  const client = _factory(apiKey);
+  const client = _factory();
   const res = await client.messages.create({
-    model: MODEL,
+    model: MODEL_ID,
     max_tokens: 4096,
     system: [
       {

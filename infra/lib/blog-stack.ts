@@ -96,6 +96,21 @@ export class BlogStack extends cdk.Stack {
       })
     );
 
+    // Bedrock InvokeModel 権限。inference profile 経由は profile + 配下の
+    // foundation model の両方への権限が必要 (AWS 公式仕様)。デフォルトは
+    // jp.anthropic.claude-haiku-4-5 (JP cross-region) を想定。
+    apiHandler.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ["bedrock:InvokeModel", "bedrock:InvokeModelWithResponseStream"],
+        resources: [
+          // Inference profile (cross-region routing)
+          `arn:aws:bedrock:${this.region}:${this.account}:inference-profile/jp.anthropic.claude-haiku-4-5-*`,
+          // 配下の foundation model (各リージョンの実体)
+          `arn:aws:bedrock:*::foundation-model/anthropic.claude-haiku-4-5-*`,
+        ],
+      })
+    );
+
     // API Gateway REST API
     // CORS は CloudFront 経由の同一オリジン運用 (C1) が前提のため最小限。
     // 直接 API Gateway ドメインを叩く運用 (Phase 2 のローカル動作確認等) のために

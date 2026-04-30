@@ -57,9 +57,6 @@ async function setupSsm(): Promise<void> {
       Parameter: { Value: hashApiKey(API_KEY, JWT_SECRET) },
     });
   ssmMock
-    .on(GetParameterCommand, { Name: "/blog/api/anthropic-key" })
-    .resolves({ Parameter: { Value: "sk-anthropic-test" } });
-  ssmMock
     .on(GetParameterCommand, { Name: "/blog/api/github-dispatch-token" })
     .resolves({ Parameter: { Value: "ghp_test_token" } });
   __setSsmClientForTest(ssmMock as unknown as SSMClient);

@@ -28,7 +28,7 @@ api/
 │   │   ├── posts.ts           # preview / publish / list / delete
 │   │   └── images.ts          # pre-signed PUT URL (5 min)
 │   ├── ai/
-│   │   ├── client.ts          # Anthropic SDK + ephemeral prompt caching
+│   │   ├── client.ts          # @anthropic-ai/bedrock-sdk (AWS Bedrock 経由) + ephemeral prompt caching
 │   │   └── prompts.ts         # frontmatter+icon system prompt
 │   └── util/
 │       ├── parse.ts           # body / cookie / header parsing
@@ -54,16 +54,17 @@ Lambda reads on cold start (path prefix from `PARAMETER_STORE_PREFIX`, default `
 | `/blog/api/admin-password-hash` | SecureString | `scrypt$<salt_hex>$<hash_hex>` (N=32768, r=8, p=1, keylen=64). Set via `scripts/set-admin-password.mjs`. |
 | `/blog/api/jwt-secret` | SecureString | HS256 signing key; also used as HMAC pepper for API key hashes. Set via `scripts/init-jwt-secret.mjs`. |
 | `/blog/api/api-key-hash` | SecureString | Comma-separated HMAC-SHA256 hashes (rotation-friendly). Produced by `scripts/rotate-api-key.mjs` (use `--append` to keep older keys valid). |
-| `/blog/api/anthropic-key` | SecureString | Anthropic API key (Claude Haiku 4.5). Manual provisioning. |
 | `/blog/api/github-dispatch-token` | SecureString | GitHub PAT with `repository_dispatch` permission. Manual provisioning. |
+
+AI 呼び出しは AWS Bedrock 経由 (`@anthropic-ai/bedrock-sdk`) で、Lambda 実行ロールに `bedrock:InvokeModel` 権限を付与しているため Anthropic API キーは不要。デフォルトモデル: `jp.anthropic.claude-haiku-4-5-20251001-v1:0` (env `BEDROCK_MODEL_ID` で override 可)。
 
 ## Initial provisioning order
 
 1. `node scripts/init-jwt-secret.mjs` — creates `/blog/api/jwt-secret`.
 2. `node scripts/set-admin-password.mjs` — sets the admin password (scrypt-hashed).
 3. `node scripts/rotate-api-key.mjs` — creates the first API key (depends on jwt-secret existing).
-4. Manually `aws ssm put-parameter --name /blog/api/anthropic-key --type SecureString --value '...' --overwrite`.
-5. Manually `aws ssm put-parameter --name /blog/api/github-dispatch-token --type SecureString --value 'ghp_...' --overwrite`.
+4. Manually `aws ssm put-parameter --name /blog/api/github-dispatch-token --type SecureString --value 'ghp_...' --overwrite`.
+5. AWS Bedrock 側で Anthropic Claude Haiku 4.5 モデルへのアクセスを有効化 (Bedrock コンソール → Model access)。`jp.anthropic.claude-haiku-4-5-20251001-v1:0` inference profile が ACTIVE で、Lambda 実行ロールが invoke できる必要あり。
 
 Rotating jwt-secret invalidates ALL existing JWTs and breaks API key hashes; rerun step 3 (and possibly step 2) after rotation.
 

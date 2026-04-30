@@ -40,7 +40,7 @@ export async function handlePostsPreview(
     return error(400, "invalid request", parsed.error.issues);
   }
 
-  const ai = await correctPostWithAi(parsed.data.markdown, ctx.secrets.anthropicKey);
+  const ai = await correctPostWithAi(parsed.data.markdown);
   const slug = parsed.data.slug
     ? sanitizeSlug(parsed.data.slug)
     : slugFromTitle(ai.frontmatter.title);

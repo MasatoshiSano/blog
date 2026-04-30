@@ -13,7 +13,6 @@ function makeSecrets(): ApiSecrets {
     adminPasswordHash: "n/a",
     jwtSecret: JWT_SECRET,
     apiKeyHashes: [hashApiKey(VALID_API_KEY, JWT_SECRET)],
-    anthropicKey: "sk-test",
     githubDispatchToken: "gh-test",
   };
 }

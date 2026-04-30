@@ -31,29 +31,27 @@ export interface ApiSecrets {
   adminPasswordHash: string;
   jwtSecret: string;
   apiKeyHashes: string[]; // 複数キー対応 (カンマ区切りで保存)
-  anthropicKey: string;
   githubDispatchToken: string;
 }
 
 export async function loadApiSecrets(prefix: string): Promise<ApiSecrets> {
+  // AI 呼び出しは Bedrock 経由 (AWS credentials を Lambda 実行ロールから取得)
+  // のため Anthropic API key は SSM に持たない。
   const [
     adminPasswordHash,
     jwtSecret,
     apiKeyHashesRaw,
-    anthropicKey,
     githubDispatchToken,
   ] = await Promise.all([
     getParameter(`${prefix}/admin-password-hash`),
     getParameter(`${prefix}/jwt-secret`),
     getParameter(`${prefix}/api-key-hash`),
-    getParameter(`${prefix}/anthropic-key`),
     getParameter(`${prefix}/github-dispatch-token`),
   ]);
   return {
     adminPasswordHash,
     jwtSecret,
     apiKeyHashes: apiKeyHashesRaw.split(",").map((s) => s.trim()).filter(Boolean),
-    anthropicKey,
     githubDispatchToken,
   };
 }

@@ -82,7 +82,7 @@ Claude Code (mcp-blog) ─┘                                          │
                                                                    ├─► S3 contentBucket (md)
                                                                    ├─► S3 mediaBucket (images, presigned PUT)
                                                                    ├─► SSM Parameter Store (secrets)
-                                                                   ├─► Anthropic Claude Haiku 4.5 (frontmatter / structure correction)
+                                                                   ├─► AWS Bedrock (Claude Haiku 4.5, jp.* inference profile, IAM-only auth)
                                                                    └─► GitHub repository_dispatch
                                                                           │
                                                                           ▼
@@ -108,8 +108,9 @@ Set in this order before Lambda is functional:
 | `/blog/api/jwt-secret` | `init-jwt-secret.mjs` | HS256 signing key + HMAC pepper for API keys |
 | `/blog/api/admin-password-hash` | `set-admin-password.mjs` | `scrypt$<salt>$<hash>`; N=32768, r=8, p=1, keylen=64, maxmem=128 MiB |
 | `/blog/api/api-key-hash` | `rotate-api-key.mjs` | comma-separated HMAC-SHA256 hashes (rotation friendly) |
-| `/blog/api/anthropic-key` | manual | `aws ssm put-parameter ... --type SecureString` |
 | `/blog/api/github-dispatch-token` | manual | fine-grained PAT, `Contents: write` + `Metadata: read` |
+
+AI 呼び出しは AWS Bedrock 経由 (Lambda 実行ロールに `bedrock:InvokeModel` を付与済み) のため、Anthropic API キーは保持しない。Bedrock のモデル ID は env `BEDROCK_MODEL_ID` で上書き可、デフォルトは `jp.anthropic.claude-haiku-4-5-20251001-v1:0`。
 
 Rotating `jwt-secret` invalidates all existing JWTs and breaks the API key hash (HMAC pepper changed); rerun `rotate-api-key.mjs` and possibly `set-admin-password.mjs` after rotation.
 
