@@ -189,6 +189,29 @@ function handler(event) {
       }
     );
 
+    // CloudFront Function: /api/* prefix を strip して API Gateway へ転送する。
+    // CloudFront 経由のリクエスト URI: /api/admin/login → API Gateway は /admin/login
+    // を受け取り、定義済み resource にマッチして Lambda が呼ばれる。
+    const apiPrefixStripFunction = new cloudfront.Function(
+      this,
+      "ApiPrefixStripFunction",
+      {
+        code: cloudfront.FunctionCode.fromInline(`
+function handler(event) {
+  var request = event.request;
+  var uri = request.uri;
+  if (uri === '/api' || uri === '/api/') {
+    request.uri = '/';
+  } else if (uri.indexOf('/api/') === 0) {
+    request.uri = uri.substring(4); // remove leading "/api"
+  }
+  return request;
+}
+`),
+        runtime: cloudfront.FunctionRuntime.JS_2_0,
+      }
+    );
+
     // CloudFront distribution with OAC for both buckets
     // /api/* behavior は API Gateway を origin として追加 (キャッシュ無効化、全 method 許可)
     const distribution = new cloudfront.Distribution(this, "Distribution", {
@@ -219,6 +242,12 @@ function handler(event) {
           cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
           originRequestPolicy:
             cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
+          functionAssociations: [
+            {
+              function: apiPrefixStripFunction,
+              eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+            },
+          ],
         },
       },
       defaultRootObject: "index.html",
