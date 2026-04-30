@@ -12,10 +12,12 @@ const githubActionsRoleArn = app.node.tryGetContext("githubActionsRoleArn") as
   | string
   | undefined;
 
+// 既存 BlogStack は ap-northeast-1 にデプロイされている。AWS profile の
+// デフォルトリージョン (例: us-east-1) と衝突しないよう、リージョンを固定する。
 new BlogStack(app, "BlogStack", {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION ?? "ap-northeast-1",
+    region: "ap-northeast-1",
   },
   githubActionsRoleArn,
 });
