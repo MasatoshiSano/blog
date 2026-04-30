@@ -1,6 +1,6 @@
 ---
 title: "接続先PCに設定不要で自動ログインするRDPランチャをPythonで作る — cmdkey + .rdp動的生成"
-emoji: "🖥️"
+icon: "monitor"
 type: "tech"
 topics: ["Python", "Windows", "RDP", "customtkinter", "PyInstaller", "Desktop"]
 published: true

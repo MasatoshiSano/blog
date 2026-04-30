@@ -1,6 +1,6 @@
 ---
 title: "CDKでWebSocket APIを構築する — サーバーレスチャットのインフラ定義"
-emoji: "🏗️"
+icon: "building-2"
 type: "tech"
 topics: ["AWS", "CDK", "API Gateway", "Lambda", "WebSocket"]
 published: true

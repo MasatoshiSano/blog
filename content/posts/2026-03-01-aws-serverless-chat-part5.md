@@ -1,6 +1,6 @@
 ---
 title: "ReactでリアルタイムチャットUIを作る — WebSocketクライアントとOptimistic UI"
-emoji: "💬"
+icon: "message-circle"
 type: "tech"
 topics: ["React", "WebSocket", "Zustand", "TypeScript", "Chat"]
 published: true

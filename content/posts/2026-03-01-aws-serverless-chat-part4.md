@@ -1,6 +1,6 @@
 ---
 title: "WebSocket Lambdaの実装 — JWT認証・ブロードキャスト・切断処理"
-emoji: "🔐"
+icon: "lock"
 type: "tech"
 topics: ["AWS", "Lambda", "WebSocket", "Cognito", "TypeScript"]
 published: true

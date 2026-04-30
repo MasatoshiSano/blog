@@ -1,6 +1,6 @@
 ---
 title: "DynamoDB Single Table Designでチャットを設計する — PK/SKとアクセスパターン"
-emoji: "🗄️"
+icon: "database"
 type: "tech"
 topics: ["AWS", "DynamoDB", "Database", "Architecture", "Chat"]
 published: true

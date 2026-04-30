@@ -1,6 +1,6 @@
 ---
 title: "Amplify Gen 2の認証状態を管理する（第2回）— Zustand + React Routerで保護ルートを実装"
-emoji: "🛡️"
+icon: "shield"
 type: "tech"
 topics: ["Amplify", "Cognito", "React", "Zustand", "Auth"]
 published: true

@@ -1,6 +1,6 @@
 ---
 title: "Amplify Gen 2のバックエンドでCognito JWTを検証する（第3回）— Lambda Function URLでの認証と監査ログ"
-emoji: "🔑"
+icon: "key"
 type: "tech"
 topics: ["Amplify", "Cognito", "Lambda", "JWT", "Auth"]
 published: true

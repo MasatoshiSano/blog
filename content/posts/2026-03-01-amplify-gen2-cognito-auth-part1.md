@@ -1,6 +1,6 @@
 ---
 title: "Amplify Gen 2でCognito認証を最短構築する（第1回）— defineAuth 1行からログインUIまで"
-emoji: "🔐"
+icon: "lock"
 type: "tech"
 topics: ["Amplify", "Cognito", "React", "AWS", "Auth"]
 published: true

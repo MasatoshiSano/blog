@@ -1,6 +1,6 @@
 ---
 title: "リアルタイム通信の選択肢 — ポーリング・SSE・WebSocketを比較する"
-emoji: "⚡"
+icon: "zap"
 type: "tech"
 topics: ["AWS", "WebSocket", "API Gateway", "Architecture", "Chat"]
 published: true
