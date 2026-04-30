@@ -1,0 +1,27 @@
+{
+  "name": "mcp-blog",
+  "version": "0.1.0",
+  "description": "MCP server for blog admin API — preview, publish, list, delete posts via Claude Code",
+  "type": "module",
+  "bin": {
+    "mcp-blog": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist"
+  ]
+}
