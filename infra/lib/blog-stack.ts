@@ -222,11 +222,19 @@ function handler(event) {
         },
       },
       defaultRootObject: "index.html",
+      // 既存 BlogStack の仕様に合わせる: S3 OAC が missing object に 403 を返すため
+      // 403 と 404 の両方を /404.html (status 404) にマップする。
       errorResponses: [
+        {
+          httpStatus: 403,
+          responsePagePath: "/404.html",
+          responseHttpStatus: 404,
+          ttl: cdk.Duration.seconds(0),
+        },
         {
           httpStatus: 404,
           responsePagePath: "/404.html",
-          responseHttpStatus: 200,
+          responseHttpStatus: 404,
           ttl: cdk.Duration.seconds(0),
         },
       ],
