@@ -103,13 +103,12 @@ function EditPageInner() {
             >
               記事一覧へ
             </Link>
-            <Link
-              href={`/admin/edit?slug=${encodeURIComponent(slug)}`}
+            <button
               onClick={() => setDone(false)}
               className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600"
             >
               続けて編集
-            </Link>
+            </button>
           </div>
         </div>
       </div>

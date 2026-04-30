@@ -106,7 +106,7 @@ export async function listPosts(): Promise<PostListItem[]> {
   return res.posts ?? [];
 }
 
-/** 個別記事の Markdown 本体と frontmatter を取得する (編集ページで初期値として使う) */
+/** 個別記事の Markdown 本体と frontmatter を取得する */
 export async function getPostMarkdown(slug: string): Promise<{
   slug: string;
   markdown: string;
