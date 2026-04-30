@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  repository_dispatch:
+    types: [blog-rebuild]
 
 permissions:
   id-token: write
@@ -26,14 +28,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ap-northeast-1
+
+      - name: Sync content from S3
+        env:
+          CONTENT_BUCKET: ${{ secrets.CONTENT_BUCKET_NAME }}
+          MEDIA_BUCKET: ${{ secrets.MEDIA_BUCKET_NAME }}
+        run: |
+          aws s3 sync "s3://${CONTENT_BUCKET}/posts/" content/posts/ --delete
+          aws s3 sync "s3://${MEDIA_BUCKET}/" public/media/ --delete
+
+      - name: Build
+        run: npm run build
 
       - name: Deploy to S3
         env:
