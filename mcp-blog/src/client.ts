@@ -114,11 +114,16 @@ export async function listPosts(
   published?: boolean,
   limit?: number
 ): Promise<ListPost[]> {
+  // API は { posts: [...] } 形式で返すため unwrap する
   const params = new URLSearchParams();
   if (published !== undefined) params.set("published", String(published));
   if (limit !== undefined) params.set("limit", String(limit));
   const query = params.toString();
-  return request<ListPost[]>("GET", `/admin/posts${query ? `?${query}` : ""}`);
+  const res = await request<{ posts: ListPost[] }>(
+    "GET",
+    `/admin/posts${query ? `?${query}` : ""}`
+  );
+  return res.posts ?? [];
 }
 
 export async function deletePost(slug: string): Promise<DeleteResponse> {
