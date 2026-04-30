@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { Suspense, useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -15,6 +15,20 @@ import {
 } from "@/lib/admin-api";
 
 export default function EditPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center py-16">
+          <Loader2 size={24} className="animate-spin text-primary-500" />
+        </div>
+      }
+    >
+      <EditPageInner />
+    </Suspense>
+  );
+}
+
+function EditPageInner() {
   const searchParams = useSearchParams();
   const slug = searchParams?.get("slug") ?? "";
 
