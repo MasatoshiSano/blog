@@ -1,6 +1,14 @@
 "use client";
 
-import { Suspense, useEffect, useState, useCallback } from "react";
+import {
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+  type ChangeEvent,
+} from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -8,11 +16,18 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
+  Image as ImageIcon,
+  Upload,
+  X,
 } from "lucide-react";
 import {
   getPostMarkdown,
   publishPost,
+  getUploadUrl,
+  uploadImageToS3,
 } from "@/lib/admin-api";
+
+const MAX_IMG_SIZE = 10 * 1024 * 1024;
 
 export default function EditPage() {
   return (
@@ -39,9 +54,30 @@ function EditPageInner() {
     Record<string, unknown>
   >({});
 
+  // 新しい画像を選択中なら imgFile に保持。null なら既存 coverImage を維持
+  const [imgFile, setImgFile] = useState<File | null>(null);
+  const [imgError, setImgError] = useState<string | null>(null);
+  const imgInputRef = useRef<HTMLInputElement>(null);
+
   const [publishing, setPublishing] = useState(false);
   const [publishError, setPublishError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+
+  // 新規ファイルがあればそのオブジェクト URL、無ければ既存 coverImage を表示
+  const previewSrc = useMemo<string | null>(() => {
+    if (imgFile) return URL.createObjectURL(imgFile);
+    const existing = editedFrontmatter.coverImage;
+    return typeof existing === "string" && existing ? existing : null;
+  }, [imgFile, editedFrontmatter.coverImage]);
+
+  // オブジェクト URL は明示的に解放
+  useEffect(() => {
+    if (!imgFile) return;
+    const url = previewSrc;
+    return () => {
+      if (url && url.startsWith("blob:")) URL.revokeObjectURL(url);
+    };
+  }, [imgFile, previewSrc]);
 
   const load = useCallback(async () => {
     if (!slug) {
@@ -66,15 +102,60 @@ function EditPageInner() {
     load();
   }, [load]);
 
+  function handleImgChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    setImgError(null);
+    if (!file) {
+      setImgFile(null);
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      setImgError("画像ファイルを選択してください");
+      setImgFile(null);
+      return;
+    }
+    if (file.size > MAX_IMG_SIZE) {
+      setImgError("画像は 10MB 以下にしてください");
+      setImgFile(null);
+      return;
+    }
+    setImgFile(file);
+  }
+
+  function clearNewImage() {
+    setImgFile(null);
+    setImgError(null);
+    if (imgInputRef.current) imgInputRef.current.value = "";
+  }
+
+  function removeCoverImage() {
+    clearNewImage();
+    setEditedFrontmatter((prev) => {
+      const { coverImage: _drop, ...rest } = prev;
+      return rest;
+    });
+  }
+
   async function handlePublish() {
     if (!slug) return;
     setPublishing(true);
     setPublishError(null);
     try {
+      let frontmatter = { ...editedFrontmatter };
+
+      if (imgFile) {
+        const { uploadUrl, publicUrl } = await getUploadUrl(
+          imgFile.name,
+          imgFile.type
+        );
+        await uploadImageToS3(uploadUrl, imgFile);
+        frontmatter = { ...frontmatter, coverImage: publicUrl };
+      }
+
       await publishPost({
         slug,
         markdown: editedMarkdown,
-        frontmatter: editedFrontmatter,
+        frontmatter,
       });
       setDone(true);
     } catch (err) {
@@ -104,7 +185,10 @@ function EditPageInner() {
               記事一覧へ
             </Link>
             <button
-              onClick={() => setDone(false)}
+              onClick={() => {
+                setDone(false);
+                clearNewImage();
+              }}
               className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600"
             >
               続けて編集
@@ -140,6 +224,11 @@ function EditPageInner() {
     );
   }
 
+  // coverImage は専用 UI で扱うのでフロントマター一覧からは除外
+  const frontmatterEntries = Object.entries(editedFrontmatter).filter(
+    ([key]) => key !== "coverImage"
+  );
+
   return (
     <div className="mx-auto max-w-4xl">
       <div className="mb-6 flex items-center gap-3">
@@ -158,11 +247,99 @@ function EditPageInner() {
         </div>
       </div>
 
+      {/* サムネ画像 */}
+      <section className="mb-6 rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">サムネ画像</h2>
+          <div className="flex items-center gap-2">
+            {imgFile && (
+              <button
+                onClick={clearNewImage}
+                className="rounded-lg border border-gray-300 bg-white px-3 py-1 text-xs text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+              >
+                変更を取り消す
+              </button>
+            )}
+            {(imgFile || editedFrontmatter.coverImage) && (
+              <button
+                onClick={removeCoverImage}
+                className="rounded-lg border border-red-200 bg-white px-3 py-1 text-xs text-red-600 hover:bg-red-50 dark:border-red-800 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-red-900/20"
+              >
+                サムネを削除
+              </button>
+            )}
+          </div>
+        </div>
+
+        {previewSrc ? (
+          <div className="mb-3 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={previewSrc}
+              alt="サムネプレビュー"
+              className="aspect-video w-full object-cover"
+            />
+          </div>
+        ) : (
+          <div className="mb-3 flex aspect-video w-full items-center justify-center rounded-lg border border-dashed border-gray-300 text-xs text-gray-400 dark:border-gray-700">
+            サムネ未設定 (未指定なら Unsplash から自動選択)
+          </div>
+        )}
+
+        <div
+          className="cursor-pointer rounded-lg border-2 border-dashed border-gray-200 p-4 text-center transition hover:border-primary-400 dark:border-gray-700 dark:hover:border-primary-600"
+          onClick={() => imgInputRef.current?.click()}
+        >
+          <input
+            ref={imgInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImgChange}
+            className="hidden"
+          />
+          {imgFile ? (
+            <div className="flex items-center justify-center gap-3">
+              <ImageIcon size={20} className="text-primary-500" />
+              <div className="text-left">
+                <p className="text-sm font-medium text-gray-900 dark:text-white">{imgFile.name}</p>
+                <p className="text-xs text-gray-400">{(imgFile.size / 1024 / 1024).toFixed(2)} MB</p>
+              </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  clearNewImage();
+                }}
+                className="ml-auto rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800"
+                aria-label="選択を取り消す"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          ) : (
+            <div>
+              <Upload size={20} className="mx-auto mb-1 text-gray-300 dark:text-gray-600" />
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {editedFrontmatter.coverImage ? "新しい画像で差し替える (任意)" : "新しい画像をアップロード (任意)"}
+              </p>
+              <p className="mt-0.5 text-xs text-gray-400">最大 10MB</p>
+            </div>
+          )}
+        </div>
+
+        {imgError && (
+          <p className="mt-2 flex items-center gap-1.5 text-xs text-red-500">
+            <AlertCircle size={12} />
+            {imgError}
+          </p>
+        )}
+      </section>
+
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
           <h2 className="mb-4 text-sm font-semibold text-gray-700 dark:text-gray-300">フロントマター</h2>
           <div className="space-y-3">
-            {Object.entries(editedFrontmatter).map(([key, value]) => (
+            {frontmatterEntries.map(([key, value]) => (
               <div key={key}>
                 <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">{key}</label>
                 {typeof value === "boolean" ? (
