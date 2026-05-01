@@ -9,7 +9,7 @@ date: "2026-03-01"
 description: "AWS Amplify Gen 2のdefineAuthを使い、Cognito認証のバックエンド構築からReactログインUI実装までを一気通貫で解説。メール認証・パスワードリセットまでカバー"
 series: "Amplify Gen 2でCognito認証を実装する"
 seriesOrder: 1
-coverImage: "/images/posts/amplify-gen2-cognito-auth-part1-cover.jpg"
+coverImage: "/images/posts/amplify-gen2-cognito-auth-part1-cover.webp"
 ---
 
 > **このシリーズ: 全3回**

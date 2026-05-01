@@ -9,7 +9,7 @@ date: "2026-03-01"
 description: "AWS CDKでAPI Gateway WebSocket APIを定義する方法を解説。4つのルート（$connect/$disconnect/sendMessage/$default）のLambda統合、IAMポリシー、デプロイ設定まで"
 series: "AWSサーバーレスチャット実装"
 seriesOrder: 3
-coverImage: "/images/posts/aws-serverless-chat-part3-cover.jpg"
+coverImage: "/images/posts/aws-serverless-chat-part3-cover.webp"
 ---
 
 > **このシリーズ: 全5回**

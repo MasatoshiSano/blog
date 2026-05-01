@@ -9,7 +9,7 @@ date: "2026-03-01"
 description: "Lambda Function URLでCognito JWTトークンを検証する実装方法を解説。JWKS取得・署名検証・クレーム検証のフルスクラッチ実装と、監査ログ統合まで"
 series: "Amplify Gen 2でCognito認証を実装する"
 seriesOrder: 3
-coverImage: "/images/posts/amplify-gen2-cognito-auth-part3-cover.jpg"
+coverImage: "/images/posts/amplify-gen2-cognito-auth-part3-cover.webp"
 ---
 
 > **このシリーズ: 全3回**

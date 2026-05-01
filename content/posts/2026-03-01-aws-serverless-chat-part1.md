@@ -9,7 +9,7 @@ date: "2026-03-01"
 description: "チャットアプリに必要なリアルタイム通信を、ポーリング・SSE・WebSocketの3方式で比較。API Gateway WebSocket APIを選んだ設計判断とコスト試算を解説"
 series: "AWSサーバーレスチャット実装"
 seriesOrder: 1
-coverImage: "/images/posts/aws-serverless-chat-part1-cover.jpg"
+coverImage: "/images/posts/aws-serverless-chat-part1-cover.webp"
 ---
 
 > **このシリーズ: 全5回**

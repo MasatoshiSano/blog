@@ -9,7 +9,7 @@ date: "2026-03-01"
 description: "DynamoDB Single Table Designのメリット・デメリットを解説し、チャットアプリのコネクション管理・ルーム・メッセージを1テーブルで設計する具体的なPK/SKパターンを紹介"
 series: "AWSサーバーレスチャット実装"
 seriesOrder: 2
-coverImage: "/images/posts/aws-serverless-chat-part2-cover.jpg"
+coverImage: "/images/posts/aws-serverless-chat-part2-cover.webp"
 ---
 
 > **このシリーズ: 全5回**

@@ -7,7 +7,7 @@ published: true
 category: "Debugging"
 date: "2026-05-01"
 description: "既存の CloudFront 配信 (S3 静的サイト) に CDK で API Gateway + Lambda を後付け拡張するときに踏んだ region pin、s3 sync --delete、ErrorResponses regression、/api/* prefix strip の 4 つの罠と回避方法を、実際の cdk diff / Lambda ログ / curl 出力と一緒にまとめる。"
-coverImage: "/images/posts/2026-05-01-cdk-existing-cloudfront-pitfalls-cover.jpg"
+coverImage: "/images/posts/2026-05-01-cdk-existing-cloudfront-pitfalls-cover.webp"
 ---
 
 ## 概要

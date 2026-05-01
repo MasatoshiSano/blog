@@ -7,7 +7,7 @@ published: true
 category: "Debugging"
 date: "2026-05-01"
 description: "Next.js 15 の output:'export' で useSearchParams を使うコンポーネントが prerender で fail する原因と、Suspense boundary でラップする標準パターンを示す。"
-coverImage: "/images/posts/2026-05-01-nextjs-static-export-usesearchparams-suspense-cover.jpg"
+coverImage: "/images/posts/2026-05-01-nextjs-static-export-usesearchparams-suspense-cover.webp"
 ---
 
 ## 概要

@@ -7,7 +7,7 @@ published: true
 category: "HowTo"
 date: "2026-05-01"
 description: "Model Context Protocol の自作サーバを npm 公開せずに GitHub から直接 npx でインストールできるようにする。prepare スクリプトでビルドしようとして詰まる典型パターンを避け、pre-built dist を distribution repo にコミットする運用に落ち着いた話。"
-coverImage: "/images/posts/2026-05-01-mcp-server-github-npx-distribution-cover.jpg"
+coverImage: "/images/posts/2026-05-01-mcp-server-github-npx-distribution-cover.webp"
 ---
 
 ## 概要

@@ -7,7 +7,7 @@ published: true
 category: "HowTo"
 date: "2026-04-27"
 description: "複数の社内PCへ毎回IDとパスワードを手入力する手間を、cmdkeyとmstscの組み合わせで自動化する。接続先PCには一切手を入れずに動作するRDPランチャをPythonで実装し、単一exeで配布する手順をまとめた。"
-coverImage: "/images/posts/windows-rdp-auto-login-launcher-python-cover.jpg"
+coverImage: "/images/posts/windows-rdp-auto-login-launcher-python-cover.webp"
 ---
 
 ## 概要

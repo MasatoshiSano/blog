@@ -9,7 +9,7 @@ date: "2026-03-01"
 description: "React + Zustandでリアルタイムチャット画面を実装。WebSocketクライアントの再接続・ハートビート、Optimistic UIによる即座のメッセージ表示、重複メッセージ防止まで"
 series: "AWSサーバーレスチャット実装"
 seriesOrder: 5
-coverImage: "/images/posts/aws-serverless-chat-part5-cover.jpg"
+coverImage: "/images/posts/aws-serverless-chat-part5-cover.webp"
 ---
 
 > **このシリーズ: 全5回**

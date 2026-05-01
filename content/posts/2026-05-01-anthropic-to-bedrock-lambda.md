@@ -7,7 +7,7 @@ published: true
 category: "HowTo"
 date: "2026-05-01"
 description: "Lambda 内で動く Claude 呼び出しを Anthropic API から AWS Bedrock 経由に切り替える具体的な手順。@anthropic-ai/bedrock-sdk で SDK 互換のまま、API キーを SSM から消し、IAM ロールだけで認証できるようにする。jp.anthropic.* inference profile と二段構えの IAM 権限の話も含む。"
-coverImage: "/images/posts/2026-05-01-anthropic-to-bedrock-lambda-cover.jpg"
+coverImage: "/images/posts/2026-05-01-anthropic-to-bedrock-lambda-cover.webp"
 ---
 
 ## 概要

@@ -9,7 +9,7 @@ date: "2026-03-01"
 description: "Zustandで認証状態を一元管理し、React Routerの保護ルート・ロールベース制御・セッションタイムアウトまでを実装する"
 series: "Amplify Gen 2でCognito認証を実装する"
 seriesOrder: 2
-coverImage: "/images/posts/amplify-gen2-cognito-auth-part2-cover.jpg"
+coverImage: "/images/posts/amplify-gen2-cognito-auth-part2-cover.webp"
 ---
 
 > **このシリーズ: 全3回**

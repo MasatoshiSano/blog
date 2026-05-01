@@ -9,7 +9,7 @@ date: "2026-03-01"
 description: "API Gateway WebSocket APIのLambdaハンドラー実装を解説。$connectでのCognito JWT検証、sendMessageでの全員配信とGoneException処理、$disconnectでの接続レコード削除まで"
 series: "AWSサーバーレスチャット実装"
 seriesOrder: 4
-coverImage: "/images/posts/aws-serverless-chat-part4-cover.jpg"
+coverImage: "/images/posts/aws-serverless-chat-part4-cover.webp"
 ---
 
 > **このシリーズ: 全5回**
