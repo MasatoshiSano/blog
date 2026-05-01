@@ -55,3 +55,6 @@ mcp-blog/dist/
 
 # user-local notes / temporary credentials
 /api.txt
+
+# Playwright MCP session captures (ephemeral)
+/.playwright-mcp/
