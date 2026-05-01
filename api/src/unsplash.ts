@@ -10,8 +10,22 @@ function hashSlug(slug: string): number {
   return hash;
 }
 
+function optimizeUnsplashUrl(url: string): string {
+  try {
+    const u = new URL(url);
+    u.searchParams.set("w", "800");
+    u.searchParams.set("fm", "webp");
+    u.searchParams.set("q", "75");
+    u.searchParams.set("auto", "format");
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 export function getUnsplashImageForSlug(slug: string): UnsplashImage | null {
   const images = unsplashImagesJson as UnsplashImage[];
   if (images.length === 0) return null;
-  return images[hashSlug(slug) % images.length];
+  const picked = images[hashSlug(slug) % images.length];
+  return { ...picked, url: optimizeUnsplashUrl(picked.url) };
 }
