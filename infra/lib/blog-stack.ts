@@ -228,6 +228,36 @@ function handler(event) {
       }
     );
 
+    // /feed.xml は static export なので Response ヘッダがコード側では効かない。
+    // CDN 側で Cache-Control を返す ResponseHeadersPolicy + 内部 TTL の CachePolicy を作る。
+    // 採用値の根拠: dx-wiki/decisions/why-stale-while-revalidate-86400.md
+    // 注意: dx-wiki/gotchas/stale-while-revalidate-pitfall.md に運用上の落とし穴あり
+    const feedCachePolicy = new cloudfront.CachePolicy(this, "FeedCachePolicy", {
+      cachePolicyName: `${this.stackName}-feed-cache`,
+      defaultTtl: cdk.Duration.hours(1),
+      minTtl: cdk.Duration.minutes(5),
+      maxTtl: cdk.Duration.days(1),
+      enableAcceptEncodingGzip: true,
+      enableAcceptEncodingBrotli: true,
+    });
+    const feedResponseHeadersPolicy = new cloudfront.ResponseHeadersPolicy(
+      this,
+      "FeedResponseHeadersPolicy",
+      {
+        responseHeadersPolicyName: `${this.stackName}-feed-headers`,
+        customHeadersBehavior: {
+          customHeaders: [
+            {
+              header: "Cache-Control",
+              value: "public, max-age=3600, stale-while-revalidate=86400",
+              override: true,
+            },
+            { header: "X-Content-Type-Options", value: "nosniff", override: true },
+          ],
+        },
+      },
+    );
+
     // CloudFront distribution with OAC for both buckets
     // /api/* behavior は API Gateway を origin として追加 (キャッシュ無効化、全 method 許可)
     const distribution = new cloudfront.Distribution(this, "Distribution", {
@@ -244,6 +274,13 @@ function handler(event) {
         ],
       },
       additionalBehaviors: {
+        "/feed.xml": {
+          origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket),
+          viewerProtocolPolicy:
+            cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+          cachePolicy: feedCachePolicy,
+          responseHeadersPolicy: feedResponseHeadersPolicy,
+        },
         "/media/*": {
           origin: origins.S3BucketOrigin.withOriginAccessControl(mediaBucket),
           viewerProtocolPolicy:
