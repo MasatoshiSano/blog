@@ -224,10 +224,7 @@ function EditPageInner() {
     );
   }
 
-  // coverImage は専用 UI で扱うのでフロントマター一覧からは除外
-  const frontmatterEntries = Object.entries(editedFrontmatter).filter(
-    ([key]) => key !== "coverImage"
-  );
+  const frontmatterEntries = Object.entries(editedFrontmatter);
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -342,19 +339,79 @@ function EditPageInner() {
             {frontmatterEntries.map(([key, value]) => (
               <div key={key}>
                 <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">{key}</label>
-                {typeof value === "boolean" ? (
-                  <button
-                    onClick={() =>
-                      setEditedFrontmatter((prev) => ({ ...prev, [key]: !value }))
+
+                {/* published → トグルスイッチ */}
+                {key === "published" ? (
+                  <div className="flex items-center gap-3">
+                    <button
+                      role="switch"
+                      aria-checked={Boolean(value)}
+                      onClick={() =>
+                        setEditedFrontmatter((prev) => ({ ...prev, [key]: !value }))
+                      }
+                      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${
+                        Boolean(value)
+                          ? "bg-primary-600"
+                          : "bg-gray-300 dark:bg-gray-600"
+                      }`}
+                    >
+                      <span
+                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${
+                          Boolean(value) ? "translate-x-5" : "translate-x-0"
+                        }`}
+                      />
+                    </button>
+                    <span className={`text-sm font-medium ${Boolean(value) ? "text-green-600 dark:text-green-400" : "text-gray-500 dark:text-gray-400"}`}>
+                      {Boolean(value) ? "公開" : "非公開"}
+                    </span>
+                  </div>
+
+                /* date / updated → カレンダー入力 */
+                ) : key === "date" || key === "updated" ? (
+                  <input
+                    type="date"
+                    value={String(value ?? "")}
+                    onChange={(e) =>
+                      setEditedFrontmatter((prev) => ({ ...prev, [key]: e.target.value }))
                     }
-                    className={`rounded-full px-3 py-0.5 text-xs font-medium transition ${
-                      value
-                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                        : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"
-                    }`}
-                  >
-                    {value ? "true" : "false"}
-                  </button>
+                    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:[color-scheme:dark]"
+                  />
+
+                /* description → textarea（複数行） */
+                ) : key === "description" ? (
+                  <textarea
+                    value={String(value ?? "")}
+                    onChange={(e) =>
+                      setEditedFrontmatter((prev) => ({ ...prev, [key]: e.target.value }))
+                    }
+                    rows={3}
+                    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                  />
+
+                /* その他の boolean */
+                ) : typeof value === "boolean" ? (
+                  <div className="flex items-center gap-3">
+                    <button
+                      role="switch"
+                      aria-checked={value}
+                      onClick={() =>
+                        setEditedFrontmatter((prev) => ({ ...prev, [key]: !value }))
+                      }
+                      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${
+                        value ? "bg-primary-600" : "bg-gray-300 dark:bg-gray-600"
+                      }`}
+                    >
+                      <span
+                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${
+                          value ? "translate-x-5" : "translate-x-0"
+                        }`}
+                      />
+                    </button>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      {value ? "true" : "false"}
+                    </span>
+                  </div>
+
                 ) : typeof value === "number" ? (
                   <input
                     type="number"
