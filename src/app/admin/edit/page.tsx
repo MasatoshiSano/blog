@@ -260,7 +260,7 @@ function EditPageInner() {
                 変更を取り消す
               </button>
             )}
-            {(imgFile || editedFrontmatter.coverImage) && (
+            {(imgFile || Boolean(editedFrontmatter.coverImage)) && (
               <button
                 onClick={removeCoverImage}
                 className="rounded-lg border border-red-200 bg-white px-3 py-1 text-xs text-red-600 hover:bg-red-50 dark:border-red-800 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-red-900/20"
