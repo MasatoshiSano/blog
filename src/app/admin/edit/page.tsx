@@ -224,7 +224,10 @@ function EditPageInner() {
     );
   }
 
-  const frontmatterEntries = Object.entries(editedFrontmatter);
+  // coverImage は専用 UI で管理するのでフロントマター欄からは除外
+  const frontmatterEntries = Object.entries(editedFrontmatter).filter(
+    ([key]) => key !== "coverImage"
+  );
 
   return (
     <div className="mx-auto max-w-4xl">
