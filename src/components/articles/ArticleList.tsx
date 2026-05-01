@@ -28,11 +28,11 @@ export function ArticleList({ posts }: ArticleListProps) {
   };
 
   const gridClass =
-    columns === 1
-      ? "grid-cols-1"
-      : columns === 2
-        ? "grid-cols-1 md:grid-cols-2"
-        : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+    columns === 2
+      ? "grid grid-cols-1 gap-6 md:grid-cols-2"
+      : columns === 3
+        ? "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        : "";
 
   return (
     <div>
@@ -40,11 +40,19 @@ export function ArticleList({ posts }: ArticleListProps) {
         <p className="text-sm text-gray-500 dark:text-gray-400">{posts.length}件の記事</p>
         <ColumnToggle columns={columns} onChange={handleColumnsChange} />
       </div>
-      <div className={`grid gap-6 ${gridClass}`}>
-        {posts.map((post) => (
-          <ArticleCard key={post.slug} post={post} />
-        ))}
-      </div>
+      {columns === 1 ? (
+        <div>
+          {posts.map((post) => (
+            <ArticleCard key={post.slug} post={post} variant="list" />
+          ))}
+        </div>
+      ) : (
+        <div className={gridClass}>
+          {posts.map((post) => (
+            <ArticleCard key={post.slug} post={post} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
