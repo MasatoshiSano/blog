@@ -13,4 +13,10 @@ export default [
     ],
   },
   ...nextCoreWebVitals,
+  {
+    rules: {
+      // mounted フラグ等の一般的な "client-only init" パターンを許可
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ];
