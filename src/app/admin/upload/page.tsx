@@ -241,6 +241,19 @@ export default function UploadPage() {
                     >
                       {value ? "true" : "false"}
                     </button>
+                  ) : typeof value === "number" ? (
+                    <input
+                      type="number"
+                      value={value}
+                      onChange={(e) => {
+                        const raw = e.target.value;
+                        setEditedFrontmatter((prev) => ({
+                          ...prev,
+                          [key]: raw === "" ? "" : Number(raw),
+                        }));
+                      }}
+                      className="w-full rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                    />
                   ) : Array.isArray(value) ? (
                     <input
                       type="text"

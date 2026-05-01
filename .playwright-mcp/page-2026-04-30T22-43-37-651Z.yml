@@ -1,0 +1,68 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "</> TECH BLOG" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: </>
+        - generic [ref=e6]: TECH BLOG
+      - generic [ref=e7]:
+        - navigation [ref=e8]:
+          - link "Home" [ref=e9] [cursor=pointer]:
+            - /url: /
+        - button "検索を開く" [ref=e10]:
+          - img [ref=e11]
+          - generic [ref=e14]: 検索
+          - generic [ref=e15]: ⌘K
+        - button "ダークモードに切り替え" [ref=e16]:
+          - img [ref=e17]
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e26]:
+        - link "記事一覧へ戻る" [ref=e27] [cursor=pointer]:
+          - /url: /admin/posts
+          - img [ref=e28]
+        - generic [ref=e30]:
+          - heading "記事を編集" [level=1] [ref=e31]
+          - paragraph [ref=e32]:
+            - text: "slug:"
+            - code [ref=e33]: blog-test-post
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - heading "フロントマター" [level=2] [ref=e36]
+          - generic [ref=e37]:
+            - generic [ref=e38]:
+              - generic [ref=e39]: title
+              - textbox [ref=e40]: Playwright E2E テスト投稿 — admin upload 動作確認
+            - generic [ref=e41]:
+              - generic [ref=e42]: icon
+              - textbox [ref=e43]: flask-conical
+            - generic [ref=e44]:
+              - generic [ref=e45]: type
+              - textbox [ref=e46]: tech
+            - generic [ref=e47]:
+              - generic [ref=e48]: topics
+              - textbox "カンマ区切りで入力" [ref=e49]: playwright, test, e2e
+            - generic [ref=e50]:
+              - generic [ref=e51]: published
+              - button "true" [ref=e52]
+            - generic [ref=e53]:
+              - generic [ref=e54]: category
+              - textbox [ref=e55]: Test
+            - generic [ref=e56]:
+              - generic [ref=e57]: date
+              - textbox [ref=e58]: 2026-04-30
+            - generic [ref=e59]:
+              - generic [ref=e60]: description
+              - textbox [ref=e61]: Playwright による E2E テストで、管理 UI からの投稿が CloudFront 配信まで機能するか確認する記事。
+        - generic [ref=e62]:
+          - heading "Markdown 本文" [level=2] [ref=e63]
+          - textbox [ref=e64]: "# Playwright E2E テスト投稿 — admin upload 動作確認 ## 概要 これは Playwright + admin UI による E2E テスト投稿です。 - ログイン - 記事プレビュー (AI 補正) - 公開 - GitHub Actions 経由のビルド - CloudFront 配信 の一連が機能していることを確認するための記事です。"
+      - generic [ref=e65]:
+        - link "キャンセル" [ref=e66] [cursor=pointer]:
+          - /url: /admin/posts
+        - button "更新する" [ref=e67]:
+          - img [ref=e68]
+          - text: 更新する
+  - contentinfo [ref=e23]:
+    - generic [ref=e24]: © 2026 Tech Blog. All rights reserved.
+  - alert [ref=e25]

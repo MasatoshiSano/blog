@@ -1,0 +1,11 @@
+[    1884ms] TypeError: e.map is not a function
+    at m (https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/app/admin/posts/page-f76920fcf64b0dfe.js:1:3972)
+    at l9 (https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js:1:51130)
+    at o_ (https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js:1:70990)
+    at oq (https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js:1:82020)
+    at ik (https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js:1:114682)
+    at https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js:1:114527
+    at ib (https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js:1:114535)
+    at iu (https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js:1:111618)
+    at iX (https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js:1:132934)
+    at MessagePort.w (https://dxbqlfvrescw1.cloudfront.net/_next/static/chunks/1255-047c78d244a39784.js:1:64292)

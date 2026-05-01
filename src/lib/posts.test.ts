@@ -21,11 +21,13 @@ const TEST_POSTS_DIR = path.join(process.cwd(), "content", "posts");
 // We use the actual content/posts directory since we have real posts to test against
 describe("posts", () => {
   describe("getPost", () => {
+    const FIXTURE_SLUG = "2026-04-27-windows-rdp-auto-login-launcher-python";
+
     it("returns a post for a valid slug", () => {
-      const post = getPost("how-to-post-blog");
+      const post = getPost(FIXTURE_SLUG);
       expect(post).not.toBeNull();
-      expect(post!.slug).toBe("how-to-post-blog");
-      expect(post!.title).toBe("このブログに記事を投稿する方法");
+      expect(post!.slug).toBe(FIXTURE_SLUG);
+      expect(post!.title).toContain("RDPランチャ");
       expect(post!.published).toBe(true);
     });
 
@@ -35,25 +37,31 @@ describe("posts", () => {
     });
 
     it("parses frontmatter fields correctly", () => {
-      const post = getPost("how-to-post-blog");
+      const post = getPost(FIXTURE_SLUG);
       expect(post).not.toBeNull();
-      expect(post!.emoji).toBe("📝");
+      expect(post!.icon).toBe("monitor");
       expect(post!.type).toBe("tech");
-      expect(post!.topics).toEqual(["Next.js", "Markdown"]);
-      expect(post!.category).toBe("Guide");
-      expect(post!.date).toBe("2026-02-18");
-      expect(post!.featured).toBe(true);
+      expect(post!.topics).toEqual([
+        "Python",
+        "Windows",
+        "RDP",
+        "customtkinter",
+        "PyInstaller",
+        "Desktop",
+      ]);
+      expect(post!.category).toBe("HowTo");
+      expect(post!.date).toBe("2026-04-27");
     });
 
     it("calculates reading time", () => {
-      const post = getPost("how-to-post-blog");
+      const post = getPost(FIXTURE_SLUG);
       expect(post).not.toBeNull();
       expect(post!.readingTime).toBeGreaterThan(0);
       expect(typeof post!.readingTime).toBe("number");
     });
 
     it("includes raw markdown content", () => {
-      const post = getPost("how-to-post-blog");
+      const post = getPost(FIXTURE_SLUG);
       expect(post).not.toBeNull();
       expect(post!.content).toContain("## 概要");
     });

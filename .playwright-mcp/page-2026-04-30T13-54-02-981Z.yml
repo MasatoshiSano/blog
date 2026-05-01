@@ -1,0 +1,38 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "</> TECH BLOG" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: </>
+        - generic [ref=e6]: TECH BLOG
+      - generic [ref=e7]:
+        - navigation [ref=e8]:
+          - link "Home" [ref=e9] [cursor=pointer]:
+            - /url: /
+        - button "検索を開く" [ref=e10]:
+          - img [ref=e11]
+          - generic [ref=e14]: 検索
+          - generic [ref=e15]: ⌘K
+        - button "ダークモードに切り替え" [ref=e16]:
+          - img [ref=e17]
+  - main [ref=e19]:
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - img [ref=e24]
+        - generic [ref=e27]:
+          - heading "管理者ログイン" [level=1] [ref=e28]
+          - paragraph [ref=e29]: Blog Admin
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]: パスワード
+          - generic [ref=e33]:
+            - textbox "パスワード" [active] [ref=e34]:
+              - /placeholder: 管理者パスワードを入力
+            - button "パスワードを表示" [ref=e35]:
+              - img [ref=e36]
+        - button "ログイン" [disabled] [ref=e39]:
+          - img [ref=e40]
+          - text: ログイン
+  - contentinfo [ref=e43]:
+    - generic [ref=e44]: © 2026 Tech Blog. All rights reserved.
+  - alert [ref=e45]
